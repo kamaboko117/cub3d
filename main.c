@@ -13,7 +13,7 @@ typedef struct	data_s
 {
     void		*mlx_ptr;
     void		*mlx_win;
-	player_t	*player;
+	player_t	player;
 }                 data_t;
 
 typedef struct imgdata_s
@@ -25,19 +25,19 @@ typedef struct imgdata_s
 	int		endian;
 }				imgdata_t;
 
-int	key_hook(int keycode, data_t data)
+int	key_hook(int keycode, data_t *data)
 {
-	printf("player's y pos: %d\n", data.player->y);
+	printf("player's y pos: %d\n", data->player.y);
 	if (keycode == 65307)
-		mlx_destroy_window(data.mlx_ptr, data.mlx_win);
+		mlx_destroy_window(data->mlx_ptr, data->mlx_win);
 	if (keycode == 119)
-		data.player->y++;
+		data->player.y++;
 	if (keycode == 97)
-		data.player->x--;
+		data->player.x--;
 	if (keycode == 115)
-		data.player->y--;
+		data->player.y--;
 	if (keycode == 100)
-		data.player->x++;
+		data->player.x++;
 }
 
 int display_keycode(int keycode, data_t data)
@@ -102,8 +102,8 @@ int main(void)
 
 	player.x = 5;
 	player.y = 5;
-	data.player = &player;
-	printf("player's y pos: %d\n", data.player->y);
+	data.player = player;
+	printf("player's y pos: %d\n", data.player.y);
     if ((data.mlx_ptr = mlx_init()) == NULL)
         return (EXIT_FAILURE);
     if ((data.mlx_win = mlx_new_window(data.mlx_ptr, 640, 480, "Hello world")) == NULL)
