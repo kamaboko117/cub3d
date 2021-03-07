@@ -60,6 +60,12 @@ void			ft_putnbru_fd(unsigned int n, int fd);
 void			ft_putnbrbase_fd(long n, char *base, int fd);
 void			ft_putnbrubase_fd(unsigned n, char *base, int fd);
 
+int		get_next_line(int fd, char **line);
+size_t	ft_strlen(const char *s);
+size_t	ft_strlen_nl(const char *s);
+char	*ft_strdup_nl(char *s1);
+char	*ft_strdup(const char *s1);
+
 typedef struct	s_list
 {
 	void			*content;
