@@ -9,13 +9,6 @@ typedef struct	player_s
 	int	y;
 }				player_t;
 
-typedef struct	data_s
-{
-    void		*mlx_ptr;
-    void		*mlx_win;
-	player_t	player;
-}                 data_t;
-
 typedef struct imgdata_s
 {
 	void	*img;
@@ -25,47 +18,48 @@ typedef struct imgdata_s
 	int		endian;
 }				imgdata_t;
 
+typedef struct	data_s
+{
+    void		*mlx_ptr;
+    void		*mlx_win;
+	player_t	player;
+	imgdata_t	img;
+}                 data_t;
+
+
 int	key_hook(int keycode, data_t *data)
 {
-	printf("player's y pos: %d\n", data->player.y);
+
 	if (keycode == 65307)
+	{
 		mlx_destroy_window(data->mlx_ptr, data->mlx_win);
+		exit(0);
+	}
 	if (keycode == 119)
-		data->player.y++;
+		data->player.y--;
 	if (keycode == 97)
 		data->player.x--;
 	if (keycode == 115)
-		data->player.y--;
+		data->player.y++;
 	if (keycode == 100)
 		data->player.x++;
+	printf("x: %d | y: %d\n", data->player.x, data->player.y);
 }
 
-int display_keycode(int keycode, data_t data)
+int display_keycode(int keycode, data_t *data)
 {
 	printf("%d\n", keycode);
 }
 
-int display_button(int button, int x, int y, data_t data)
+int display_button(int button, int x, int y, data_t *data)
 {
 	printf("%d, x: %d, y: %d\n", button, x, y);
 }
 
-int	exit_cub3d(data_t data)
+int	exit_cub3d(data_t *data)
 {
-	mlx_destroy_window(data.mlx_ptr, data.mlx_win);
+	mlx_destroy_window(data->mlx_ptr, data->mlx_win);
 	exit(0);
-}
-
-int	render_next_frame(player_t player, data_t data)
-{
-	int	rgb;
-
-	rgb = 255;
-	rgb = (rgb << 8) + 0;
-	rgb = (rgb << 8) + 0;
-
-	printf("mdr\n");
-	//mlx_pixel_put(data.mlx_ptr, data.mlx_win, player.x, player.y, rgb);
 }
 
 void	imgputpixel(imgdata_t *img, int x, int y, int color)
@@ -94,6 +88,15 @@ void	imgputsquare(imgdata_t *img, int x, int y, int color)
 	}
 }
 
+int		render_next_frame(data_t *data)
+{
+	imgdata_t img;
+
+	img = data->img;
+	imgputsquare(&img, data->player.x, data->player.y, 0x00FF0000);
+	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, img.img, 0, 0);
+}
+
 int main(void)
 {
     data_t		data;
@@ -103,7 +106,7 @@ int main(void)
 	player.x = 5;
 	player.y = 5;
 	data.player = player;
-	printf("player's y pos: %d\n", data.player.y);
+	printf("x: %d | y: %d\n", data.player.x, data.player.y);
     if ((data.mlx_ptr = mlx_init()) == NULL)
         return (EXIT_FAILURE);
     if ((data.mlx_win = mlx_new_window(data.mlx_ptr, 640, 480, "Hello world")) == NULL)
@@ -116,10 +119,12 @@ int main(void)
 
 	img.img = mlx_new_image(data.mlx_ptr, 640, 480);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+	data.img = img;
+	printf("data.img.img: %p, img.img: %p\n", data.img.img, img.img);
 	imgputsquare(&img, 5, 5, 0x00FF0000);
 	mlx_put_image_to_window(data.mlx_ptr, data.mlx_win, img.img, 0, 0);
 
-//	mlx_loop_hook(data.mlx_ptr, render_next_frame, &);
+	mlx_loop_hook(data.mlx_ptr, render_next_frame, &data);
     mlx_loop(data.mlx_ptr);
     return (EXIT_SUCCESS);
 }
