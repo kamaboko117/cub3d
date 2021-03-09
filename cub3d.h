@@ -1,5 +1,6 @@
 #ifndef CUB3D_H
 # define CUB3D_H
+# include <math.h>
 
 typedef struct	s_line
 {
@@ -19,10 +20,12 @@ typedef struct	s_pos
 }                t_pos;
 typedef struct	player_s
 {
-	int		x;
-	int		y;
+	double	x;
+	double	y;
 	double	dx;
 	double	dy;
+	double	dxleft;
+	double	dyleft;
 	double	a;
 }				player_t;
 typedef struct	map_s
@@ -44,11 +47,17 @@ typedef struct	data_s
 {
     void		*mlx_ptr;
     void		*mlx_win;
+	char		inputs[10];
 	player_t	player;
 	imgdata_t	img;
 	map_t		map;
 }                 data_t;
 
+void	moveplayer(data_t *data);
+void	forward(player_t *player, int velocity);
+void	backward(player_t *player, int velocity);
+void	lookleft(player_t *player, double sensitivity);
+void	lookright(player_t *player, double sensitivity);
 int		key_hook(int keycode, data_t *data);
 int 	display_keycode(int keycode, data_t *data);
 int 	display_button(int button, int x, int y, data_t *data);
