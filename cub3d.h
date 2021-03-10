@@ -1,6 +1,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 # include <math.h>
+# include <stdio.h>
 
 typedef struct	s_line
 {
@@ -70,4 +71,6 @@ void	displaymaparray(map_t *map);
 void	imgdrawmap(imgdata_t *img, map_t *map);
 void	imgdrawplayer(imgdata_t *img, data_t *data);
 int		render_next_frame(data_t *data);
+map_t	mapinit(data_t *data);
+void	arrayinit(data_t *data);
 #endif

@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../cub3d.h"
 
 static void		line_parameters(t_line *params, t_pos a, t_pos b)
 {
