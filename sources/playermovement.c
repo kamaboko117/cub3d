@@ -30,7 +30,7 @@ void	moveplayer(data_t *data)
 	double	sensitivity;
 
 	velocity = 1;
-	sensitivity = 0.03;
+	sensitivity = 0.01;
 	if (data->inputs[0] == 1)
 		forward(&data->player, velocity);
 	if (data->inputs[1] == 1)

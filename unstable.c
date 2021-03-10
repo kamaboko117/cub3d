@@ -55,9 +55,9 @@ int		render_next_frame(data_t *data)
 	img = data->img;
 //	imgdrawbg(&img, 1024, 512, 0x0000FF00);
 	imgdrawmap(&img, &data->map);
+	raycast(data);
 	moveplayer(data);
 	imgdrawplayer(&img, data);
-	raycast(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, img.img, 0, 0);
 }
 
@@ -75,9 +75,9 @@ void	imgdrawray(data_t *data, t_ray *r, int color)
 	imgdrawline(a, b, data);
 }
 
-double	dist(player_t a, t_ray *b)
+double	dist(player_t a, t_pos b)
 {
-	return(sqrt((b->x - a.x) * (b->x - a.x) + (b->y - a.y) * (b->y - a.y)));
+	return(sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y)));
 }
 
 double	horizontalcheck(data_t *data, t_ray *r, int dof)
@@ -125,9 +125,8 @@ double	horizontalcheck(data_t *data, t_ray *r, int dof)
 				dof++;
 			}
 		}
-		printf("H: mz: %d my: %d, mapX: %d, mx: %d\n", m.z, m.y, data->map.map_x, m.x);
 		if(r->x >= 0 && r->x <= 1024 && r->y >= 0 && r->y <= 512)
-			return (dist(data->player, r));
+			return (dist(data->player, m));
 		i++;
 	}
 	return (-1);
@@ -143,6 +142,7 @@ double	verticalcheck(data_t *data, t_ray *r, int dof)
 	nTan = -tan(r->a);
 	while(i < 1)
 	{
+		printf("mz: %d my: %d, mapX: %d, mx: %d\n", m.z, m.y, data->map.map_x, m.x);
 		dof = 0;
 		if (r->a > M_PI / 2 && r->a < M_PI + M_PI / 2)
 		{
@@ -178,9 +178,8 @@ double	verticalcheck(data_t *data, t_ray *r, int dof)
 				dof++;
 			}
 		}
-		printf("V: mz: %d my: %d, mapX: %d, mx: %d\n", m.z, m.y, data->map.map_x, m.x);
 		if(r->x >= 0 && r->x <= 1024 && r->y >= 0 && r->y <= 512)
-			return(dist(data->player, r));
+			return(dist(data->player, m));
 		i++;
 	}
 	return (-1);
@@ -198,7 +197,6 @@ void	raycast(data_t *data)
 	rv.a = rh.a;
 	hdist = horizontalcheck(data, &rh, 8);
 	vdist = verticalcheck(data, &rv, 8);
-	printf("hdist:%f, vdist:%f\n", hdist, vdist);
 	if ((hdist != -1 && hdist < vdist) || vdist == -1)
 		imgdrawray(data, &rh, 0x00FF00);
 	else if ((vdist != -1 && vdist < hdist) || hdist == -1)
