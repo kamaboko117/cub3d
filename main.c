@@ -75,16 +75,6 @@ void	imgdrawray(data_t *data, t_ray *r, int color)
 	imgdrawline(a, b, data);
 }
 
-double	dist(t_pos a, t_pos b)
-{
-	return(sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y)));
-}
-
-void	horizontalcheck()
-{
-
-}
-
 void	raycast(data_t *data)
 {
 	int		i;
@@ -127,7 +117,7 @@ void	raycast(data_t *data)
 			m.x = (int)(r.x)>>6;
 			m.y = (int)(r.y)>>6;
 			m.z = m.y * data->map.map_x + m.x;
-			if (m.z > 0 && m.z < data->map.map_x * data->map.map_y && data->map.map[m.z] == 1)
+			if (m.z < data->map.map_x * data->map.map_y && data->map.map[m.z] == 1)
 				dof = 8;
 			else
 			{
@@ -176,7 +166,7 @@ void	raycast(data_t *data)
 			m.x = (int)(r.x)>>6;
 			m.y = (int)(r.y)>>6;
 			m.z = m.y * data->map.map_x + m.x;
-			if (m.z > 0 && m.z < data->map.map_x * data->map.map_y && data->map.map[m.z] == 1)
+			if (m.z < data->map.map_x * data->map.map_y && data->map.map[m.z] == 1)
 				dof = 8;
 			else
 			{
