@@ -55,9 +55,140 @@ int		render_next_frame(data_t *data)
 	img = data->img;
 //	imgdrawbg(&img, 1024, 512, 0x0000FF00);
 	imgdrawmap(&img, &data->map);
+	raycast(data);
 	moveplayer(data);
 	imgdrawplayer(&img, data);
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, img.img, 0, 0);
+}
+
+void	imgdrawray(data_t *data, t_ray *r, int color)
+{
+	t_pos	a;
+	t_pos	b;
+
+
+	a.x = (int)data->player.x;
+	a.y = (int)data->player.y;
+	b.x = (int)r->x;
+	b.y = (int)r->y;
+	a.color = color;
+	imgdrawline(a, b, data);
+}
+
+double	dist(t_pos a, t_pos b)
+{
+	return(sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y)));
+}
+
+void	horizontalcheck()
+{
+
+}
+
+void	raycast(data_t *data)
+{
+	int		i;
+	int		dof;
+	double	aTan;
+	t_ray	r;
+	t_pos	m;
+
+	i = 0;
+	r.a = data->player.a;
+	aTan = -1 / tan(r.a);
+
+	//horizontal check//
+
+	while(i < 1)
+	{
+		dof = 0;
+		if (r.a > M_PI)
+		{
+			r.y = (((int)data->player.y>>6)<<6) - 0.0001;
+			r.x = (data->player.y - r.y) * aTan + data->player.x;
+			r.yo = -64;
+			r.xo = -r.yo * aTan;
+		}
+		if (r.a < M_PI)
+		{
+			r.y = (((int)data->player.y>>6)<<6) + 64;
+			r.x = (data->player.y - r.y) * aTan + data->player.x;
+			r.yo = 64;
+			r.xo = -r.yo * aTan;
+		}
+		if (r.a == 0 || r.a == M_PI)
+		{
+			r.y = data->player.y;
+			r.x = data->player.x;
+			dof = 8;
+		}
+		while(dof < 8)
+		{
+			m.x = (int)(r.x)>>6;
+			m.y = (int)(r.y)>>6;
+			m.z = m.y * data->map.map_x + m.x;
+			if (m.z > 0 && m.z < data->map.map_x * data->map.map_y && data->map.map[m.z] == 1)
+				dof = 8;
+			else
+			{
+				r.x += r.xo;
+				r.y += r.yo;
+				dof++;
+			}
+		}
+		if(r.x >= 0 && r.x <= 1024 && r.y >= 0 && r.y <= 512)
+			imgdrawray(data, &r, 0x00FF00);
+		i++;
+	}
+
+			//vertical check//
+
+	double	nTan;
+
+	i = 0;
+	nTan = -tan(r.a);
+	while(i < 1)
+	{
+		printf("mz: %d my: %d, mapX: %d, mx: %d\n", m.z, m.y, data->map.map_x, m.x);
+		dof = 0;
+		if (r.a > M_PI / 2 && r.a < M_PI + M_PI / 2)
+		{
+			r.x = (((int)data->player.x>>6)<<6) - 0.0001;
+			r.y = (data->player.x - r.x) * nTan + data->player.y;
+			r.xo = -64;
+			r.yo = -r.xo * nTan;
+		}
+		if (r.a < M_PI / 2 || r.a > M_PI + M_PI / 2)
+		{
+			r.x = (((int)data->player.x>>6)<<6) + 64;
+			r.y = (data->player.x - r.x) * nTan + data->player.y;
+			r.xo = 64;
+			r.yo = -r.xo * nTan;
+		}
+		if (r.a == 0 || r.a == M_PI)
+		{
+			r.y = data->player.y;
+			r.x = data->player.x;
+			dof = 8;
+		}
+		while(dof < 8)
+		{
+			m.x = (int)(r.x)>>6;
+			m.y = (int)(r.y)>>6;
+			m.z = m.y * data->map.map_x + m.x;
+			if (m.z > 0 && m.z < data->map.map_x * data->map.map_y && data->map.map[m.z] == 1)
+				dof = 8;
+			else
+			{
+				r.x += r.xo;
+				r.y += r.yo;
+				dof++;
+			}
+		}
+		if(r.x >= 0 && r.x <= 1024 && r.y >= 0 && r.y <= 512)
+			imgdrawray(data, &r, 0xFF0000);
+		i++;
+	}
 }
 
 int main(void)
@@ -66,9 +197,9 @@ int main(void)
 	player_t	player;
 	imgdata_t	img;
 	
-	player.x = 64;
-	player.y = 64;
-	player.a = M_PI;
+	player.x = 72;
+	player.y = 72;
+	player.a = M_PI + M_PI / 2;
 	data.player = player;
 	arrayinit(&data);
 	printf("x: %f | y: %f\n", data.player.x, data.player.y);
@@ -96,6 +227,7 @@ int main(void)
 //	imgdrawbg(&img, 1024, 512, 0x0000FF00);
 	imgdrawmap(&img, &data.map);
 	imgdrawplayer(&img, &data);
+	raycast(&data);
 	mlx_put_image_to_window(data.mlx_ptr, data.mlx_win, img.img, 0, 0);
 	mlx_loop_hook(data.mlx_ptr, render_next_frame, &data);
 	mlx_loop(data.mlx_ptr);

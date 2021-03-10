@@ -44,6 +44,15 @@ typedef struct	imgdata_s
 	int		line_length;
 	int		endian;
 }				imgdata_t;
+typedef struct	s_ray
+{
+	double	x;
+	double	y;
+	double	a;
+	double	xo;
+	double	yo;	
+}				t_ray;
+
 typedef struct	data_s
 {
     void		*mlx_ptr;
@@ -73,4 +82,5 @@ void	imgdrawplayer(imgdata_t *img, data_t *data);
 int		render_next_frame(data_t *data);
 map_t	mapinit(data_t *data);
 void	arrayinit(data_t *data);
+void	raycast(data_t *data);
 #endif

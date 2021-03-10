@@ -71,13 +71,13 @@ void	imgdrawplayer(imgdata_t *img, data_t *data)
 	t_pos	end;
 
 	start.color = 0xFFFF00;
-	start.x = data->player.x + 4;
-	start.y = data->player.y + 4;
+	start.x = data->player.x;
+	start.y = data->player.y;
 	end.x = start.x + 10 * cos(data->player.a);
 	end.y = start.y + 10 * sin(data->player.a);
 	
 //	printf("%f\n", data->player.a);
 //	printf("start: %d, %d | end: %d, %d\n", start.x, start.y, end.x, end.y);
-	imgputsquare(img, 8, data->player.x, data->player.y, 0x00FF0000);
+	imgputsquare(img, 8, data->player.x - 4, data->player.y - 4, 0x00FF0000);
 	imgdrawline(start, end, data);
 }

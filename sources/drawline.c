@@ -17,18 +17,19 @@ void			imgdrawline(t_pos a, t_pos b, data_t *data)
 
     line_parameters(&params, a, b);
     p = a;
+	printf("py: %d by: %d px: %d bx: %d\n", p.y, b.y, p.x, b.x);
     while (p.y != b.y || p.x != b.x)
     {
         imgputpixel(&data->img, p.x, p.y, p.color);
         if ((params.error = params.offset * 2) > -params.delta_y)
         {
-            params.offset -= params.delta_y;
-            p.x += params.sign_x;
+			params.offset -= params.delta_y;
+			p.x += params.sign_x;
         }
         if (params.error < params.delta_x)
         {
-            params.offset += params.delta_x;
-            p.y += params.sign_y;
+			params.offset += params.delta_x;
+			p.y += params.sign_y;
         }
     }
     imgputpixel(&data->img, p.x, p.y, p.color);
