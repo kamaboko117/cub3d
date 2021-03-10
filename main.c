@@ -82,128 +82,119 @@ double	dist(player_t a, t_ray *b)
 
 double	horizontalcheck(data_t *data, t_ray *r, int dof)
 {
-	int		i;
 	double	aTan;
 	t_pos	m;
 	
 	aTan = -1 / tan(r->a);
-	i = 0;
-	while(i < 1)
+	dof = 0;
+	if (r->a > M_PI)
 	{
-		dof = 0;
-		if (r->a > M_PI)
-		{
-			r->y = (((int)data->player.y>>6)<<6) - 0.0001;
-			r->x = (data->player.y - r->y) * aTan + data->player.x;
-			r->yo = -64;
-			r->xo = -r->yo * aTan;
-		}
-		if (r->a < M_PI)
-		{
-			r->y = (((int)data->player.y>>6)<<6) + 64;
-			r->x = (data->player.y - r->y) * aTan + data->player.x;
-			r->yo = 64;
-			r->xo = -r->yo * aTan;
-		}
-		if (r->a == 0 || r->a == M_PI)
-		{
-			r->y = data->player.y;
-			r->x = data->player.x;
-			dof = 8;
-		}
-		while(dof < 8)
-		{
-			m.x = (int)(r->x)>>6;
-			m.y = (int)(r->y)>>6;
-			m.z = m.y * data->map.map_x + m.x;
-			if (m.z > 0 && m.z < data->map.map_x * data->map.map_y && data->map.map[m.z] == 1)
-				dof = 8;
-			else
-			{
-				r->x += r->xo;
-				r->y += r->yo;
-				dof++;
-			}
-		}
-		printf("H: mz: %d my: %d, mapX: %d, mx: %d\n", m.z, m.y, data->map.map_x, m.x);
-		if(r->x >= 0 && r->x <= 1024 && r->y >= 0 && r->y <= 512)
-			return (dist(data->player, r));
-		i++;
+		r->y = (((int)data->player.y>>6)<<6) - 0.0001;
+		r->x = (data->player.y - r->y) * aTan + data->player.x;
+		r->yo = -64;
+		r->xo = -r->yo * aTan;
 	}
+	if (r->a < M_PI)
+	{
+		r->y = (((int)data->player.y>>6)<<6) + 64;
+		r->x = (data->player.y - r->y) * aTan + data->player.x;
+		r->yo = 64;
+		r->xo = -r->yo * aTan;
+	}
+	if (r->a == 0 || r->a == M_PI)
+	{
+		r->y = data->player.y;
+		r->x = data->player.x;
+		dof = 8;
+	}
+	while(dof < 8)
+	{
+		m.x = (int)(r->x)>>6;
+		m.y = (int)(r->y)>>6;
+		m.z = m.y * data->map.map_x + m.x;
+		if (m.z > 0 && m.z < data->map.map_x * data->map.map_y && data->map.map[m.z] == 1)
+			dof = 8;
+		else
+		{
+			r->x += r->xo;
+			r->y += r->yo;
+			dof++;
+		}
+	}
+	printf("H: mz: %d my: %d, mapX: %d, mx: %d\n", m.z, m.y, data->map.map_x, m.x);
+	if(r->x > 0 && r->x <= 1024 && r->y > 0 && r->y <= 512)
+		return (dist(data->player, r));
 	return (-1);
 }
 
 double	verticalcheck(data_t *data, t_ray *r, int dof)
 {
-	int		i;
 	double	nTan;
 	t_pos	m;
 
-	i = 0;
 	nTan = -tan(r->a);
-	while(i < 1)
+	dof = 0;
+	if (r->a > M_PI / 2 && r->a < M_PI + M_PI / 2)
 	{
-		dof = 0;
-		if (r->a > M_PI / 2 && r->a < M_PI + M_PI / 2)
-		{
-			r->x = (((int)data->player.x>>6)<<6) - 0.0001;
-			r->y = (data->player.x - r->x) * nTan + data->player.y;
-			r->xo = -64;
-			r->yo = -r->xo * nTan;
-		}
-		if (r->a < M_PI / 2 || r->a > M_PI + M_PI / 2)
-		{
-			r->x = (((int)data->player.x>>6)<<6) + 64;
-			r->y = (data->player.x - r->x) * nTan + data->player.y;
-			r->xo = 64;
-			r->yo = -r->xo * nTan;
-		}
-		if (r->a == 0 || r->a == M_PI)
-		{
-			r->y = data->player.y;
-			r->x = data->player.x;
-			dof = 8;
-		}
-		while(dof < 8)
-		{
-			m.x = (int)(r->x)>>6;
-			m.y = (int)(r->y)>>6;
-			m.z = m.y * data->map.map_x + m.x;
-			if (m.z > 0 && m.z < data->map.map_x * data->map.map_y && data->map.map[m.z] == 1)
-				dof = 8;
-			else
-			{
-				r->x += r->xo;
-				r->y += r->yo;
-				dof++;
-			}
-		}
-		printf("V: mz: %d my: %d, mapX: %d, mx: %d\n", m.z, m.y, data->map.map_x, m.x);
-		if(r->x >= 0 && r->x <= 1024 && r->y >= 0 && r->y <= 512)
-			return(dist(data->player, r));
-		i++;
+		r->x = (((int)data->player.x>>6)<<6) - 0.0001;
+		r->y = (data->player.x - r->x) * nTan + data->player.y;
+		r->xo = -64;
+		r->yo = -r->xo * nTan;
 	}
+	if (r->a < M_PI / 2 || r->a > M_PI + M_PI / 2)
+	{
+		r->x = (((int)data->player.x>>6)<<6) + 64;
+		r->y = (data->player.x - r->x) * nTan + data->player.y;
+		r->xo = 64;
+		r->yo = -r->xo * nTan;
+	}
+	if (r->a == 0 || r->a == M_PI)
+	{
+		r->y = data->player.y;
+		r->x = data->player.x;
+		dof = 8;
+	}
+	while(dof < 8)
+	{
+		m.x = (int)(r->x)>>6;
+		m.y = (int)(r->y)>>6;
+		m.z = m.y * data->map.map_x + m.x;
+		if (m.z > 0 && m.z < data->map.map_x * data->map.map_y && data->map.map[m.z] == 1)
+			dof = 8;
+		else
+		{
+			r->x += r->xo;
+			r->y += r->yo;
+			dof++;
+		}
+	}
+	printf("V: mz: %d my: %d, mapX: %d, mx: %d\n", m.z, m.y, data->map.map_x, m.x);
+	if(r->x >= 0 && r->x <= 1024 && r->y >= 0 && r->y <= 512)
+		return(dist(data->player, r));
 	return (-1);
 }
 
 void	raycast(data_t *data)
 {
+	int i;
 	t_ray	rh;
 	t_ray	rv;
 	t_pos	m;
 	double	hdist;
 	double	vdist;
 	
-	rh.a = data->player.a;
+	rh.a = data->player.a - DR * 30;
+	if (rh.a < 0)
+		rh.a += 2 * M_PI;
+	if (rh.a > 2 * M_PI)
+		rh.a -= 2 * M_PI;
 	rv.a = rh.a;
 	hdist = horizontalcheck(data, &rh, 8);
 	vdist = verticalcheck(data, &rv, 8);
-	printf("hdist:%f, vdist:%f\n", hdist, vdist);
 	if ((hdist != -1 && hdist < vdist) || vdist == -1)
 		imgdrawray(data, &rh, 0x00FF00);
 	else if ((vdist != -1 && vdist < hdist) || hdist == -1)
 		imgdrawray(data, &rv, 0xFF0000);
-	
 }
 
 int main(void)

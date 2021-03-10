@@ -2,6 +2,7 @@
 # define CUB3D_H
 # include <math.h>
 # include <stdio.h>
+# define DR 0.0174533
 
 typedef struct	s_line
 {
