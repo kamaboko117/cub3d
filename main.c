@@ -53,7 +53,8 @@ int		render_next_frame(data_t *data)
 	imgdata_t img;
 
 	img = data->img;
-//	imgdrawbg(&img, 1024, 512, 0x0000FF00);
+//	mlx_clear_window(data->mlx_ptr, data->mlx_win);
+	imgdrawbg(&img, 1024, 512, 0x000000FF);
 	imgdrawmap(&img, &data->map);
 	moveplayer(data);
 	imgdrawplayer(&img, data);
@@ -121,7 +122,7 @@ double	horizontalcheck(data_t *data, t_ray *r, int dof)
 			dof++;
 		}
 	}
-	printf("H: mz: %d my: %d, mapX: %d, mx: %d\n", m.z, m.y, data->map.map_x, m.x);
+//	printf("H: mz: %d my: %d, mapX: %d, mx: %d\n", m.z, m.y, data->map.map_x, m.x);
 	if(r->x > 0 && r->x <= 1024 && r->y > 0 && r->y <= 512)
 		return (dist(data->player, r));
 	return (-1);
@@ -168,10 +169,38 @@ double	verticalcheck(data_t *data, t_ray *r, int dof)
 			dof++;
 		}
 	}
-	printf("V: mz: %d my: %d, mapX: %d, mx: %d\n", m.z, m.y, data->map.map_x, m.x);
+//	printf("V: mz: %d my: %d, mapX: %d, mx: %d\n", m.z, m.y, data->map.map_x, m.x);
 	if(r->x >= 0 && r->x <= 1024 && r->y >= 0 && r->y <= 512)
 		return(dist(data->player, r));
 	return (-1);
+}
+
+void	draw_walls(data_t *data, t_raydist rdist, int r)
+{
+	t_pos	a;
+	t_pos	b;
+	float	lineH;
+	float	lineO;
+	int		i;
+
+	lineH = (data->map.map_s * 320)/ rdist.tdist;
+	printf("aaa\n");
+	if (lineH > 320)
+		lineH = 320;
+	lineO = 160 - lineH / 2;
+	a.x = 8 * r + 520;
+	b.x = 8 * r + 520;
+	a.y = lineO;
+	b.y = lineH + lineO;
+	i = 0;
+	while(i < 8)
+	{
+		a.x += 1;
+		b.x += 1;
+		imgdrawline(a, b, data);
+		i++;
+	}
+		printf("end\n");
 }
 
 void	raycast(data_t *data)
@@ -180,21 +209,32 @@ void	raycast(data_t *data)
 	t_ray	rh;
 	t_ray	rv;
 	t_pos	m;
-	double	hdist;
-	double	vdist;
+	t_raydist	rdist;
 	
-	rh.a = data->player.a - DR * 30;
-	if (rh.a < 0)
-		rh.a += 2 * M_PI;
-	if (rh.a > 2 * M_PI)
-		rh.a -= 2 * M_PI;
-	rv.a = rh.a;
-	hdist = horizontalcheck(data, &rh, 8);
-	vdist = verticalcheck(data, &rv, 8);
-	if ((hdist != -1 && hdist < vdist) || vdist == -1)
-		imgdrawray(data, &rh, 0x00FF00);
-	else if ((vdist != -1 && vdist < hdist) || hdist == -1)
-		imgdrawray(data, &rv, 0xFF0000);
+	i= 0;
+	while (i < 60)
+	{
+		rh.a = data->player.a - DR * (30 - i);
+		if (rh.a < 0)
+			rh.a += 2 * M_PI;
+		if (rh.a > 2 * M_PI)
+			rh.a -= 2 * M_PI;
+		rv.a = rh.a;
+		rdist.hdist = horizontalcheck(data, &rh, 8);
+		rdist.vdist = verticalcheck(data, &rv, 8);
+		if ((rdist.hdist != -1 && rdist.hdist < rdist.vdist) || rdist.vdist == -1)
+		{
+			imgdrawray(data, &rh, 0x00FF00);
+			rdist.tdist = rdist.hdist;
+		}
+		else if ((rdist.vdist != -1 && rdist.vdist < rdist.hdist) || rdist.hdist == -1)
+		{
+			imgdrawray(data, &rv, 0xFF0000);
+			rdist.tdist = rdist.vdist;
+		}
+		draw_walls(data, rdist, i);
+		i++;
+	}
 }
 
 int main(void)

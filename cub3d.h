@@ -53,7 +53,12 @@ typedef struct	s_ray
 	double	xo;
 	double	yo;	
 }				t_ray;
-
+typedef struct	s_raydist
+{
+	double	hdist;
+	double	vdist;
+	double	tdist;
+}				t_raydist;
 typedef struct	data_s
 {
     void		*mlx_ptr;
