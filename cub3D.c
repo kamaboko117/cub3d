@@ -47,9 +47,9 @@ void		get_color(char *line, int *color, t_data *data)
 
 static void	cub3d(char *cub_path, int save, t_data *data)
 {
-	printf("started cub3d\n");
 	data->save = save;
 	read_cub(cub_path, data);
+	printf("starting loop\n");
 	game_loop(data);
 }
 

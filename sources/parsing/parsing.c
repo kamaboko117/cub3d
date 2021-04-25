@@ -51,6 +51,8 @@ static void	get_data(char *line, t_data *data)
 		get_texture_path(line, data->so_texture);
 	else if (!ft_strncmp(trim, "WE", 2))
 		get_texture_path(line, data->we_texture);
+	else if (!ft_strncmp(trim, "S", 1))
+		get_texture_path(trim, data->sp_texture);
 	else if (!ft_strncmp(trim, "C", 1))
 		get_color(trim, &(data->c_color), data);
 	else if (!ft_strncmp(trim, "F", 1))
@@ -91,7 +93,6 @@ void		read_cub(char *cub_path, t_data *data)
 	int			fd;
 	char		*line;
 
-	printf("reading cub\n");
 	if ((fd = open(cub_path, O_RDONLY)) < 0)
 		exit_failure("The file doesn't exist\n", data);
 	else
@@ -99,11 +100,9 @@ void		read_cub(char *cub_path, t_data *data)
 		while (get_next_line(fd, &line) > 0)
 		{
 			get_cub_data(line, data);
-			printf("%s\n", line);
 			free(line);
 		}
 		get_cub_data(line, data);
-		printf("checking cub data\n");
 		free(line);
 		check_cub_data(data);
 		get_layout(data);

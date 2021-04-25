@@ -50,14 +50,17 @@ void	imgdrawmap(t_imgdata *img, map_t *map)
 	int	color;
 
 	y = 0;
-	while(map->map[y])
+//	printf("%i\n", map->map_y);
+	while(y < map->map_y)
 	{
 		x = 0;
-		while(map->map[y][x])
+//		printf("plouf\n");
+		while(x < map->map_x)
 		{
 			color = 0x002C2F33;
 			if (map->map[y][x] == 1)
 				color = 0x007289DA;
+//			printf("plouf\n");
 			imgputsquare(img, map->map_s, x * map->map_s, y * map->map_s, color);
 			x++;			
 		}

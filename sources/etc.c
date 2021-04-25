@@ -54,11 +54,11 @@ int		render_next_frame(t_data *data)
 
 	img = data->img;
 //	mlx_clear_window(data->mlx_ptr, data->mlx_win);
-	imgdrawbg(img, 1024, 512, 0x000000FF);
+//	imgdrawbg(img, data->win_width, data->win_height, 0x000000FF);
 	imgdrawmap(img, data->map);
 	moveplayer(data);
 	imgdrawplayer(img, data);
-	raycast(data);
+//	raycast(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, img->img, 0, 0);
 }
 
@@ -248,28 +248,31 @@ void	game_loop(t_data *data)
     if ((data->mlx_win = mlx_new_window(data->mlx_ptr, data->win_width, data->win_height, "CUB3D")) == NULL)
 		return;
 //		return (EXIT_FAILURE);
-//	mlx_key_hook(data.mlx_win, display_button, &data);
-//	mlx_mouse_hook(data.mlx_win, display_button, &data);
-	mlx_hook(data->mlx_win, 17, 1L<<17, exit_cub3d, &data);
-//	mlx_hook(data.mlx_win, 2, 1L<<0, display_button, &data);				//show pressed buton
-//	mlx_hook(data.mlx_win, 3, 1L<<1, display_buttonrelease, &data);			//show released button
-	mlx_hook(data->mlx_win, 2, 1L<<0, key_hook, &data);
-	mlx_hook(data->mlx_win, 3, 1L<<1, key_realease_hook, &data);
-//	mlx_hook(data.mlx_win, 6, 1L<<6, display_button, &data);
+//	mlx_key_hook(data.mlx_win, display_button, data);
+//	mlx_mouse_hook(data.mlx_win, display_button, data);
+//	mlx_hook(data->mlx_win, 17, 1L<<17, exit_cub3d, data);
+//	mlx_hook(data.mlx_win, 2, 1L<<0, display_button, data);				//show pressed buton
+//	mlx_hook(data.mlx_win, 3, 1L<<1, display_buttonrelease, data);			//show released button
+	mlx_hook(data->mlx_win, 2, 1L<<0, key_hook, data);
+	mlx_hook(data->mlx_win, 3, 1L<<1, key_realease_hook, data);
+//	mlx_hook(data.mlx_win, 6, 1L<<6, display_button, data);
 
-	img->img = mlx_new_image(data->mlx_ptr, 1024, 512);
+	img->img = mlx_new_image(data->mlx_ptr, data->win_width, data->win_height);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
 	data->img = img;
-	displaymaparray(data->map);
+//	displaymaparray(data->map);
 //	printf("last: %d\n", data->map->map[61]);
 	printf("mapS: %d, mapX: %d, mapY: %d\n", data->map->map_s, data->map->map_x, data->map->map_y);
 //	printf("data.img->img: %p, img->img: %p\n", data.img->img, img->img);
 //	imgdrawbg(&img, 1024, 512, 0x0000FF00);
+	data->player->x *= data->map->map_s;
+	data->player->y *= data->map->map_s;
+	printf("%i\n", data->map->map_y);
 	imgdrawmap(img, data->map);
 	imgdrawplayer(img, data);
-	raycast(data);
+//	raycast(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, img->img, 0, 0);
-	mlx_loop_hook(data->mlx_ptr, render_next_frame, &data);
-//	mlx_loop(data.mlx_ptr);
+	mlx_loop_hook(data->mlx_ptr, render_next_frame, data);
+	mlx_loop(data->mlx_ptr);
 //	return (EXIT_SUCCESS);
 }
