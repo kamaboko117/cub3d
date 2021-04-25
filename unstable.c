@@ -5,7 +5,7 @@
 #include <math.h>
 #include "cub3d.h"
 
-int		key_hook(int keycode, data_t *data)
+int		key_hook(int keycode, t_data *data)
 {
 	if (keycode == 65307)
 	{
@@ -26,7 +26,7 @@ int		key_hook(int keycode, data_t *data)
 		data->inputs[5] = 1;
 }
 
-int		key_realease_hook(int keycode, data_t *data)
+int		key_realease_hook(int keycode, t_data *data)
 {
 	if (keycode == 119)					//W
 		data->inputs[0] = 0;							
@@ -42,15 +42,15 @@ int		key_realease_hook(int keycode, data_t *data)
 		data->inputs[5] = 0;
 }
 
-int		exit_cub3d(data_t *data)
+int		exit_cub3d(t_data *data)
 {
 	mlx_destroy_window(data->mlx_ptr, data->mlx_win);
 	exit(0);
 }
 
-int		render_next_frame(data_t *data)
+int		render_next_frame(t_data *data)
 {
-	imgdata_t img;
+	t_imgdata img;
 
 	img = data->img;
 //	imgdrawbg(&img, 1024, 512, 0x0000FF00);
@@ -61,7 +61,7 @@ int		render_next_frame(data_t *data)
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, img.img, 0, 0);
 }
 
-void	imgdrawray(data_t *data, t_ray *r, int color)
+void	imgdrawray(t_data *data, t_ray *r, int color)
 {
 	t_pos	a;
 	t_pos	b;
@@ -75,12 +75,12 @@ void	imgdrawray(data_t *data, t_ray *r, int color)
 	imgdrawline(a, b, data);
 }
 
-double	dist(player_t a, t_pos b)
+double	dist(t_player a, t_pos b)
 {
 	return(sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y)));
 }
 
-double	horizontalcheck(data_t *data, t_ray *r, int dof)
+double	horizontalcheck(t_data *data, t_ray *r, int dof)
 {
 	int		i;
 	double	aTan;
@@ -132,7 +132,7 @@ double	horizontalcheck(data_t *data, t_ray *r, int dof)
 	return (-1);
 }
 
-double	verticalcheck(data_t *data, t_ray *r, int dof)
+double	verticalcheck(t_data *data, t_ray *r, int dof)
 {
 	int		i;
 	double	nTan;
@@ -185,7 +185,7 @@ double	verticalcheck(data_t *data, t_ray *r, int dof)
 	return (-1);
 }
 
-void	raycast(data_t *data)
+void	raycast(t_data *data)
 {
 	t_ray	rh;
 	t_ray	rv;
@@ -206,9 +206,9 @@ void	raycast(data_t *data)
 
 int main(void)
 {
-    data_t		data;
-	player_t	player;
-	imgdata_t	img;
+    t_data		data;
+	t_player	player;
+	t_imgdata	img;
 	
 	player.x = 72;
 	player.y = 72;

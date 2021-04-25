@@ -51,7 +51,9 @@ SRCS	=	ft_memccpy.c															\
 			ft_putnbrubase_fd.c														\
 			ft_numlen.c																\
 			get_next_line.c															\
-			get_next_line_utils.c
+			get_next_line_utils.c													\
+			ft_strjoin_free.c														\
+			ft_strcmp.c
 
 BONUSSRCS	= ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c ft_lstiter.c ft_lstlast.c ft_lstmap.c ft_lstnew.c ft_lstsize.c
 

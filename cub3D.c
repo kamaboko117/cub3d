@@ -1,4 +1,5 @@
 #include "libft/libft.h"
+#include "cub3d.h"
 #include <mlx.h>
 #include <math.h>
 #include <sys/types.h>
@@ -6,75 +7,89 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-typedef struct	data_s
+int			get_color_handle(char **rgb, t_data *data)
 {
-    void          *mlx;
-    void          *win;
-}				data_t;
+	int	r;
+	int	g;
+	int	b;
+	int	color;
 
-typedef struct	settings_s
-{
-	int	xres;
-	int	yres;
-}				settings_t;
-
-typedef struct	player_s
-{
-	int	x;
-	int	y;
-}				player_t;
-
-settings_t	parser(int fd)
-{
-	settings_t	settings;
-	char	*line;
-	char	*info;
-
-	line = NULL;
-	while (get_next_line(fd, &line))
+	color = 0;
+	if (!rgb[0] || !rgb[1] || !rgb[2])
+		exit_failure("Wrong data for the color\n", data);
+	r = ft_atoi(rgb[0]);
+	g = ft_atoi(rgb[1]);
+	b = ft_atoi(rgb[2]);
+	if (r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255)
 	{
-		printf("%s\n", line);
-		if ((info = ft_strchr(line, 'R')) && line[1] == ' ')
-		{
-			settings.xres = ft_atoi(info + 2);
-			settings.yres = ft_atoi(info + 2 + ft_numlen(settings.xres, 10) + 1);
-			return(settings);
-		}
+		color = r;
+		color = (color << 8) + g;
+		color = (color << 8) + b;
 	}
-	printf("%s\n", line);
-	if ((info = ft_strchr(line, 'R')) && line[1] == ' ')
-	{
-		settings.xres = ft_atoi(info + 2);
-		settings.yres = ft_atoi(info + 2 + ft_numlen(settings.xres, 10) + 1);
-		return(settings);
-	}
-	settings.xres = 0;
-	settings.yres = 0;
-	return(settings);
+	else
+		exit_failure("Wrong data for the color\n", data);
+	return (color);
 }
 
-int	main(int argc, char **argv)
+void		get_color(char *line, int *color, t_data *data)
 {
-	int			fd;
-	data_t		data;
-	settings_t	settings;
-	player_t	player;
+	int		i;
+	char	**rgb;
 
-	if ((fd = open(argv[1], O_RDONLY)) == -1)
+	i = 0;
+	*color = 0x0;
+	while (line[i] && !ft_isdigit(line[i]))
+		i++;
+	rgb = ft_split(line + i, ',');
+	*color = get_color_handle(rgb, data);
+	free_split(rgb);
+}
+
+static void	cub3d(char *cub_path, int save, t_data *data)
+{
+	printf("started cub3d\n");
+	data->save = save;
+	read_cub(cub_path, data);
+	game_loop(data);
+}
+
+int			checkargs(char *cub_path, char *option, t_data *data)
+{
+	char	**path;
+	int		path_len;
+
+	path_len = 0;
+	if (cub_path)
 	{
-		printf("error in open\n");
-		return (-1);
+		path = ft_split(cub_path, '.');
+		while (path[path_len])
+			path_len++;
+		if (ft_strncmp(path[path_len - 1], "cub", 4))
+			exit_failure("Wrong extension for the cub\n", data);
+		free_split(path);
 	}
-	settings = parser(fd);
-	if (settings.xres == 0 || settings.yres == 0)
+	if (option)
 	{
-		printf("x: %d y: %d\n", settings.xres, settings.yres);
-		return (-1);
+		if (ft_strncmp(option, "--save", 7))
+			exit_failure("Wrong option\n", data);
 	}
-	if ((data.mlx = mlx_init()) == NULL)
-		return (-1);
-	if ((data.win = mlx_new_window (data.mlx, settings.xres, settings.yres, "cub3d")) == NULL)
-		return (-1);
-	mlx_loop(data.mlx);
-	return (1);
+	return (EXIT_SUCCESS);
+}
+
+int			main(int argc, char **argv)
+{
+	t_data		*data;
+
+	if (!(data = datainit()))
+	{
+		puterror("error in open\n");
+		exit (EXIT_FAILURE);
+	}
+	if (argc > 3 || argc < 2)
+		exit_failure("wrong number of arguments\n", data);
+	else if (argc == 2 && !checkargs(argv[1], NULL, data))
+		cub3d(argv[1], 0, data);
+	else if (argc == 3 && !checkargs(argv[1], argv[2], data))
+		cub3d(argv[1], 1, data);
+	return (EXIT_SUCCESS);
 }

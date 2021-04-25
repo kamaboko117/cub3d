@@ -10,7 +10,7 @@ static void		line_parameters(t_line *params, t_pos a, t_pos b)
     params->error = 0;
 }
 
-void			imgdrawline(t_pos a, t_pos b, data_t *data)
+void			imgdrawline(t_pos a, t_pos b, t_data *data)
 {
     t_pos	p;
     t_line	params;
@@ -19,7 +19,7 @@ void			imgdrawline(t_pos a, t_pos b, data_t *data)
     p = a;
     while (p.y != b.y || p.x != b.x)
     {
-        imgputpixel(&data->img, p.x, p.y, p.color);
+        imgputpixel(data->img, p.x, p.y, p.color);
         if ((params.error = params.offset * 2) > -params.delta_y)
         {
 			params.offset -= params.delta_y;
@@ -31,5 +31,5 @@ void			imgdrawline(t_pos a, t_pos b, data_t *data)
 			p.y += params.sign_y;
         }
     }
-    imgputpixel(&data->img, p.x, p.y, p.color);
+    imgputpixel(data->img, p.x, p.y, p.color);
 }

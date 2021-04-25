@@ -1,6 +1,6 @@
 #include "../cub3d.h"
 
-void	imgputpixel(imgdata_t *img, int x, int y, int color)
+void	imgputpixel(t_imgdata *img, int x, int y, int color)
 {
 	char	*dst;
 
@@ -8,7 +8,7 @@ void	imgputpixel(imgdata_t *img, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void	imgputsquare(imgdata_t *img, int size, int x, int y, int color)
+void	imgputsquare(t_imgdata *img, int size, int x, int y, int color)
 {
 	int	len;
 	int wid;
@@ -27,7 +27,7 @@ void	imgputsquare(imgdata_t *img, int size, int x, int y, int color)
 	}
 }
 
-void	imgdrawbg(imgdata_t *img, int xres, int yres, int color)
+void	imgdrawbg(t_imgdata *img, int xres, int yres, int color)
 {
 	int	i;
 	
@@ -43,20 +43,20 @@ void	imgdrawbg(imgdata_t *img, int xres, int yres, int color)
 	}
 }
 
-void	imgdrawmap(imgdata_t *img, map_t *map)
+void	imgdrawmap(t_imgdata *img, map_t *map)
 {
 	int	y;
 	int x;
 	int	color;
 
 	y = 0;
-	while(y < map->map_y)
+	while(map->map[y])
 	{
 		x = 0;
-		while(x < map->map_x)
+		while(map->map[y][x])
 		{
 			color = 0x002C2F33;
-			if (map->map[y * map->map_x + x] == 1)
+			if (map->map[y][x] == 1)
 				color = 0x007289DA;
 			imgputsquare(img, map->map_s, x * map->map_s, y * map->map_s, color);
 			x++;			
@@ -65,19 +65,19 @@ void	imgdrawmap(imgdata_t *img, map_t *map)
 	}
 }
 
-void	imgdrawplayer(imgdata_t *img, data_t *data)
+void	imgdrawplayer(t_imgdata *img, t_data *data)
 {
 	t_pos	start;
 	t_pos	end;
 
 	start.color = 0xFFFF00;
-	start.x = data->player.x;
-	start.y = data->player.y;
-	end.x = start.x + 10 * cos(data->player.a);
-	end.y = start.y + 10 * sin(data->player.a);
+	start.x = data->player->x;
+	start.y = data->player->y;
+	end.x = start.x + 10 * cos(data->player->a);
+	end.y = start.y + 10 * sin(data->player->a);
 	
 //	printf("%f\n", data->player.a);
 //	printf("start: %d, %d | end: %d, %d\n", start.x, start.y, end.x, end.y);
-	imgputsquare(img, 8, data->player.x - 4, data->player.y - 4, 0x00FF0000);
+	imgputsquare(img, 8, data->player->x - 4, data->player->y - 4, 0x00FF0000);
 	imgdrawline(start, end, data);
 }

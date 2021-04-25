@@ -1,42 +1,83 @@
 #include "../cub3d.h"
 
-map_t	mapinit(data_t *data)
+t_imgdata	*imgstructinit()
 {
-	map_t	map;
-	int		i;
-	int		layout[] =
-	{
-		1,1,1,1,1,1,1,1,
-		1,0,1,0,0,0,0,1,
-		1,0,1,0,0,0,0,1,
-		1,0,0,0,0,0,0,1,
-		1,0,0,0,0,0,0,1,
-		1,0,0,1,0,0,0,1,
-		1,0,0,0,0,0,0,1,
-		1,1,1,1,1,1,1,1,
-	};
+	t_imgdata	*img;
 
-	map.map_s = 64;
-	map.map_x = 8;
-	map.map_y = 8;
-	i = 0;
-	while(i < map.map_s)
-	{
-		map.map[i] = layout[i];
-		i++;
-	}
-	displaymaparray(&map);
-	return (map);
+	if (!(img = (t_imgdata *)malloc(sizeof(t_imgdata))))
+		return (NULL);
+	img->img = NULL;
+	img->addr = NULL;
+	img->bits_per_pixel = 0;
+	img->endian = 0;
+	img->line_length = 0;
+	img->path = NULL;
+	img->width = 0;
+	img->height = 0;
+	return (img);
 }
 
-void	arrayinit(data_t *data)
+t_player	*playerstructinit()
 {
-	int	i;
+	t_player	*p;
 
-	i = 0;
-	while(i < 10)
-	{
-		data->inputs[i] = 0;
-		i++;
-	}
+	if (!(p = (t_player *)malloc(sizeof(t_player))))
+		return (NULL);
+	p->x = 0;
+	p->y = 0;
+	p->a = 0;
+	p->dx = 0;
+	p->dy = 0;
+	p->dxleft = 0;
+	p->dyleft = 0;
+	return (p);
+}
+
+t_inputs	*inputstructinit()
+{
+	t_inputs	*inputs;
+
+	if (!(inputs = (t_inputs *)malloc(sizeof (t_inputs))))
+		return (NULL);
+	inputs->a = 0;
+	inputs->d = 0;
+	inputs->left = 0;
+	inputs->right = 0;
+	inputs->s = 0;
+	inputs->w = 0;
+	return(inputs);
+}
+
+t_data		*datainit()
+{
+	t_data	*data;
+
+	if (!(data = (t_data *)malloc(sizeof(t_data))))
+		return (NULL);
+	data->map_started = 0;
+	data->map_stopped = 0;
+	data->save = 0;
+	data->c_color = 0;
+	data->f_color = 0;
+	if (!(data->no_texture = imgstructinit()) 
+		|| !(data->ea_texture = imgstructinit())
+		|| !(data->so_texture = imgstructinit())
+		|| !(data->we_texture = imgstructinit())
+		|| !(data->img = imgstructinit())
+		|| !(data->player = playerstructinit())
+		|| !(data->inputs = inputstructinit()))
+		return (NULL);
+	return (data);
+}
+
+void		init_player(t_data *data)
+{
+	if (data->player->dir == 'N')
+		data->player->a = M_PI / 2;
+	if (data->player->dir == 'E')
+		data->player->a = 0;
+	if (data->player->dir == 'S')
+		data->player->a = M_PI + (M_PI / 2);
+	if (data->player->dir == 'W')
+		data->player->a = M_PI;
 }

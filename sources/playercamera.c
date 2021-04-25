@@ -1,6 +1,6 @@
 #include "../cub3d.h"
 
-void	lookleft(player_t *player, double sensitivity)
+void	lookleft(t_player *player, double sensitivity)
 {
 	player->a -= sensitivity;
 	if (player->a < 0) 
@@ -11,7 +11,7 @@ void	lookleft(player_t *player, double sensitivity)
 	player->dyleft = sin(player->a - (M_PI / 2));
 }
 
-void	lookright(player_t *player, double sensitivity)
+void	lookright(t_player *player, double sensitivity)
 {
 	player->a += sensitivity;
 	if (player->a > 2 * M_PI) 
