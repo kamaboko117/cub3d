@@ -1,7 +1,12 @@
+R 640 480
+NO ./pathNO.xpm
+EA ./pathEA.xpm
+SO ./pathSO.xpm
+WE ./pathWE.xpm
+
 11111
 1000111111
-1000000001
+100N000001
 1000111111
 11111
 
-R 640 480

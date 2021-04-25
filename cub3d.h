@@ -81,9 +81,9 @@ typedef struct	data_s
 	int			win_width;
     void		*mlx_ptr;
     void		*mlx_win;
-	char		map_started;
-	char		map_stopped;
-	char		save;
+	int			map_started;
+	int			map_stopped;
+	int			save;
 	int			c_color;
 	int			f_color;
 	t_inputs	*inputs;
@@ -137,4 +137,5 @@ void	check_layout(t_data *data, map_t *map, t_player *player);
 void	set_position(t_player *player, float pos_x, float pos_y);
 void	clear_image(t_imgdata *img, void *win, void *mlx);
 void	game_loop(t_data *data);
+map_t	*mapstructinit();
 #endif

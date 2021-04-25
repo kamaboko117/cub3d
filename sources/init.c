@@ -30,6 +30,7 @@ t_player	*playerstructinit()
 	p->dy = 0;
 	p->dxleft = 0;
 	p->dyleft = 0;
+	p->dir = '0';
 	return (p);
 }
 
@@ -63,8 +64,10 @@ t_data		*datainit()
 		|| !(data->ea_texture = imgstructinit())
 		|| !(data->so_texture = imgstructinit())
 		|| !(data->we_texture = imgstructinit())
+		|| !(data->sp_texture = imgstructinit())
 		|| !(data->img = imgstructinit())
 		|| !(data->player = playerstructinit())
+		|| !(data->map = mapstructinit())
 		|| !(data->inputs = inputstructinit()))
 		return (NULL);
 	return (data);

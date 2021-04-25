@@ -63,13 +63,16 @@ void		get_cub_data(char *line, t_data *data)
 	if(data->map_started == 1)
 	{
 		if(data->map_stopped == 1 && !isempty(line))
-			exit_failure("Map has a format error\n", data);
-		if (isempty(line))
-			data->map_stopped = 1;
-		else if (isrow(line))
-			get_map(line, data);
-		else 
-			exit_failure("Map has a format error]n", data);
+			exit_failure("Map has a format error 1\n", data);
+		else
+		{
+			if (isempty(line))
+				data->map_stopped = 1;
+			else if (isrow(line))
+				get_map(line, data);
+			else if (data->map_started == 1)
+				exit_failure("Map has a format error\n", data);
+		}	
 	}
 	else
 	{
@@ -96,6 +99,7 @@ void		read_cub(char *cub_path, t_data *data)
 		while (get_next_line(fd, &line) > 0)
 		{
 			get_cub_data(line, data);
+			printf("%s\n", line);
 			free(line);
 		}
 		get_cub_data(line, data);

@@ -82,7 +82,7 @@ int			main(int argc, char **argv)
 
 	if (!(data = datainit()))
 	{
-		puterror("error in open\n");
+		puterror("failed to allocate memory for data structure\n");
 		exit (EXIT_FAILURE);
 	}
 	if (argc > 3 || argc < 2)
