@@ -10,6 +10,6 @@ map_t	*mapstructinit()
 	map->tmpmap = NULL;
 	map->map_x = 0;
 	map->map_y = 0;
-	map->map_s = 16;
+	map->map_s = 64;
 	return (map);
 }

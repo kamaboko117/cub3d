@@ -54,11 +54,11 @@ int		render_next_frame(t_data *data)
 
 	img = data->img;
 //	mlx_clear_window(data->mlx_ptr, data->mlx_win);
-//	imgdrawbg(img, data->win_width, data->win_height, 0x000000FF);
-	imgdrawmap(img, data->map);
+	imgdrawbg(img, data->win_width, data->win_height, 0x000000FF);
+//	imgdrawmap(img, data->map);
 	moveplayer(data);
-	imgdrawplayer(img, data);
-//	raycast(data);
+//	imgdrawplayer(img, data);
+	raycast(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, img->img, 0, 0);
 }
 
@@ -81,11 +81,25 @@ double	dist(t_player *a, t_ray *b)
 	return(sqrt((b->x - a->x) * (b->x - a->x) + (b->y - a->y) * (b->y - a->y)));
 }
 
+t_pos	*posstructinit()
+{
+	t_pos	*p;
+
+	if (!(p = (t_pos *)malloc(sizeof (t_pos))))
+		return (NULL);
+	p->color = 0;
+	p->x = 0;
+	p->y = 0;
+	p->z = 0;
+	return (p);
+}
+
 double	horizontalcheck(t_data *data, t_ray *r, int dof)
 {
 	double	aTan;
-	t_pos	m;
+	t_pos	*m;
 	
+	m = posstructinit();
 	aTan = -1 / tan(r->a);
 	dof = 0;
 	if (r->a > M_PI)
@@ -108,22 +122,22 @@ double	horizontalcheck(t_data *data, t_ray *r, int dof)
 		r->x = data->player->x;
 		dof = 8;
 	}
-	while(dof < 8)
+	while(dof < 8 && m->y >= 0 && m->y < data->map->map_y - 1 && m->x >= 0 && m->x < data->map->map_x - 1)
 	{
-		m.x = (int)(r->x)>>6;
-		m.y = (int)(r->y)>>6;
-		m.z = m.y * data->map->map_x + m.x;
-		if (m.z > 0 && m.z < data->map->map_x * data->map->map_y && data->map->map[m.x][m.y] == 1)
-			dof = 8;
+		m->x = (int)(r->x)>>6;
+		m->y = (int)(r->y)>>6;
+		m->z = m->y * data->map->map_x + m->x;
+		if (m->z > 0 && m->z < data->map->map_x * data->map->map_y && data->map->map[m->y][m->x] == 1)
+			break;
 		else
 		{
 			r->x += r->xo;
 			r->y += r->yo;
-			dof++;
 		}
 	}
-//	printf("H: mz: %d my: %d, mapX: %d, mx: %d\n", m.z, m.y, data->map->map_x, m.x);
-	if(r->x > 0 && r->x <= 1024 && r->y > 0 && r->y <= 512)
+	//	printf("H: mz: %d my: %d, mapX: %d, mx: %d\n", m->z, m->y, data->map->map_x, m->x);
+	free(m);
+	if(r->x > 0 && r->x <= data->win_width && r->y > 0 && r->y <= data->win_height)
 		return (dist(data->player, r));
 	return (-1);
 }
@@ -131,8 +145,9 @@ double	horizontalcheck(t_data *data, t_ray *r, int dof)
 double	verticalcheck(t_data *data, t_ray *r, int dof)
 {
 	double	nTan;
-	t_pos	m;
+	t_pos	*m;
 
+	m = posstructinit();
 	nTan = -tan(r->a);
 	dof = 0;
 	if (r->a > M_PI / 2 && r->a < M_PI + M_PI / 2)
@@ -149,28 +164,29 @@ double	verticalcheck(t_data *data, t_ray *r, int dof)
 		r->xo = 64;
 		r->yo = -r->xo * nTan;
 	}
-	if (r->a == 0 || r->a == M_PI)
+	if (r->a == M_PI / 2 || r->a == M_PI + M_PI / 2 )
 	{
 		r->y = data->player->y;
 		r->x = data->player->x;
 		dof = 8;
 	}
-	while(dof < 8)
+	while(dof < 8 && m->y >= 0 && m->y < data->map->map_y && m->x >= 0 && m->x < data->map->map_x)
 	{
-		m.x = (int)(r->x)>>6;
-		m.y = (int)(r->y)>>6;
-		m.z = m.y * data->map->map_x + m.x;
-		if (m.z > 0 && m.z < data->map->map_x * data->map->map_y && data->map->map[m.x][m.y] == 1)
-			dof = 8;
+		m->x = (int)(r->x)>>6;
+		m->y = (int)(r->y)>>6;
+		m->z = m->y * data->map->map_x + m->x;
+		if (m->z > 0 && m->z < data->map->map_x * data->map->map_y && data->map->map[m->y][m->x] == 1)
+			break;
 		else
 		{
 			r->x += r->xo;
 			r->y += r->yo;
-			dof++;
 		}
 	}
-//	printf("V: mz: %d my: %d, mapX: %d, mx: %d\n", m.z, m.y, data->map->map_x, m.x);
-	if(r->x >= 0 && r->x <= 1024 && r->y >= 0 && r->y <= 512)
+//	printf("V: mz: %d my: %d, mapX: %d, mx: %d\n", m->z, m->y, data->map->map_x, m->x);
+//	printf("%f\n", r->x);
+	free(m);
+	if(r->x >= 0 && r->x <= data->win_width && r->y >= 0 && r->y <= data->win_height)
 		return(dist(data->player, r));
 	return (-1);
 }
@@ -183,13 +199,13 @@ void	draw_walls(t_data *data, t_raydist rdist, int r)
 	float	lineO;
 	int		i;
 
-	lineH = (data->map->map_s * 320)/ rdist.tdist;
-	printf("aaa\n");
-	if (lineH > 320)
-		lineH = 320;
-	lineO = 160 - lineH / 2;
-	a.x = 8 * r + 520;
-	b.x = 8 * r + 520;
+	a.color = 0x00FF00;
+	lineH = (data->map->map_s * data->win_height)/ rdist.tdist;
+	if (lineH > data->win_height)
+		lineH = data->win_height;
+	lineO = data->win_height / 2 - lineH / 2;
+	a.x = 8 * r;
+	b.x = 8 * r;
 	a.y = lineO;
 	b.y = lineH + lineO;
 	i = 0;
@@ -200,7 +216,6 @@ void	draw_walls(t_data *data, t_raydist rdist, int r)
 		imgdrawline(a, b, data);
 		i++;
 	}
-		printf("end\n");
 }
 
 void	raycast(t_data *data)
@@ -212,9 +227,9 @@ void	raycast(t_data *data)
 	t_raydist	rdist;
 	
 	i= 0;
-	while (i < 60)
+	while (i < 180)
 	{
-		rh.a = data->player->a - DR * (30 - i);
+		rh.a = data->player->a - DR * (90 - i);
 		if (rh.a < 0)
 			rh.a += 2 * M_PI;
 		if (rh.a > 2 * M_PI)
@@ -224,12 +239,12 @@ void	raycast(t_data *data)
 		rdist.vdist = verticalcheck(data, &rv, 8);
 		if ((rdist.hdist != -1 && rdist.hdist < rdist.vdist) || rdist.vdist == -1)
 		{
-			imgdrawray(data, &rh, 0x00FF00);
+			//imgdrawray(data, &rh, 0x00FF00);
 			rdist.tdist = rdist.hdist;
 		}
 		else if ((rdist.vdist != -1 && rdist.vdist < rdist.hdist) || rdist.hdist == -1)
 		{
-			imgdrawray(data, &rv, 0xFF0000);
+			//imgdrawray(data, &rv, 0xFF0000);
 			rdist.tdist = rdist.vdist;
 		}
 		draw_walls(data, rdist, i);
@@ -259,18 +274,20 @@ void	game_loop(t_data *data)
 
 	img->img = mlx_new_image(data->mlx_ptr, data->win_width, data->win_height);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
+	img->height = data->win_height;
+	img->width = data->win_width;
 	data->img = img;
 //	displaymaparray(data->map);
 //	printf("last: %d\n", data->map->map[61]);
 	printf("mapS: %d, mapX: %d, mapY: %d\n", data->map->map_s, data->map->map_x, data->map->map_y);
 //	printf("data.img->img: %p, img->img: %p\n", data.img->img, img->img);
-//	imgdrawbg(&img, 1024, 512, 0x0000FF00);
+	imgdrawbg(img, data->win_width, data->win_height, 0x0000FF00);
 	data->player->x *= data->map->map_s;
 	data->player->y *= data->map->map_s;
 	printf("%i\n", data->map->map_y);
 	imgdrawmap(img, data->map);
 	imgdrawplayer(img, data);
-//	raycast(data);
+	raycast(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, img->img, 0, 0);
 	mlx_loop_hook(data->mlx_ptr, render_next_frame, data);
 	mlx_loop(data->mlx_ptr);

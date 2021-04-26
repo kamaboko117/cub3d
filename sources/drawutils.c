@@ -4,6 +4,9 @@ void	imgputpixel(t_imgdata *img, int x, int y, int color)
 {
 	char	*dst;
 
+//	printf("%d x %d\n", img->width, img->height);
+	if (x < 0 || x > img->width || y < 0 || y > img->height)
+		return;
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }
@@ -14,11 +17,11 @@ void	imgputsquare(t_imgdata *img, int size, int x, int y, int color)
 	int wid;
 
 //	printf("x: %d, y: %d\n", x, y);
-	wid = size;
-	while (wid)
+	wid = size - 1;
+	while (wid >= 0)
 	{
-		len = size;
-		while (len)
+		len = size - 1;
+		while (len >= 0)
 		{
 			imgputpixel(img, x + len, y + wid, color);
 			len--;
@@ -31,10 +34,10 @@ void	imgdrawbg(t_imgdata *img, int xres, int yres, int color)
 {
 	int	i;
 	
-	while(xres)
+	while(xres >= 0)
 	{
 		i = yres;
-		while(i)
+		while(i >= 0)
 		{
 			imgputpixel(img, xres, i, color);
 			i--;
@@ -81,6 +84,6 @@ void	imgdrawplayer(t_imgdata *img, t_data *data)
 	
 //	printf("%f\n", data->player.a);
 //	printf("start: %d, %d | end: %d, %d\n", start.x, start.y, end.x, end.y);
-	imgputsquare(img, 8, data->player->x - 4, data->player->y - 4, 0x00FF0000);
+	imgputsquare(img, 8, data->player->x - 3, data->player->y - 3, 0x00FF0000);
 	imgdrawline(start, end, data);
 }
