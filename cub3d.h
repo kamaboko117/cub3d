@@ -98,8 +98,8 @@ typedef struct	data_s
 }                 t_data;
 
 void	moveplayer(t_data *data);
-void	forward(t_player *player, int velocity);
-void	backward(t_player *player, int velocity);
+void	forward(t_player *player, int velocity, t_data *data);
+void	backward(t_player *player, int velocity, t_data *data);
 void	lookleft(t_player *player, double sensitivity);
 void	lookright(t_player *player, double sensitivity);
 int		key_hook(int keycode, t_data *data);
@@ -109,7 +109,7 @@ void	imgdrawline(t_pos a, t_pos b, t_data *data);
 int		exit_cub3d(t_data *data);
 void	imgputpixel(t_imgdata *img, int x, int y, int color);
 void	imgputsquare(t_imgdata *img, int size, int x, int y, int color);
-void	imgdrawbg(t_imgdata *img, int xres, int yres, int color);
+void	imgdrawbg(t_imgdata *img, int xres, int yres, t_data *data);
 void	displaymaparray(map_t *map);
 void	imgdrawmap(t_imgdata *img, map_t *map);
 void	imgdrawplayer(t_imgdata *img, t_data *data);

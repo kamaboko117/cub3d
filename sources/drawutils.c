@@ -30,16 +30,19 @@ void	imgputsquare(t_imgdata *img, int size, int x, int y, int color)
 	}
 }
 
-void	imgdrawbg(t_imgdata *img, int xres, int yres, int color)
+void	imgdrawbg(t_imgdata *img, int xres, int yres, t_data *data)
 {
 	int	i;
 	
 	while(xres >= 0)
 	{
 		i = yres;
-		while(i >= 0)
+		while(i >= 0 && i)
 		{
-			imgputpixel(img, xres, i, color);
+			if(i < yres / 2)
+				imgputpixel(img, xres, i, data->c_color);
+			if(i >= yres / 2)
+				imgputpixel(img, xres, i, data->f_color);
 			i--;
 		}
 		xres--;
