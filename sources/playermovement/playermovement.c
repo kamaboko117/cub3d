@@ -1,4 +1,4 @@
-#include "../cub3d.h"
+#include "../../cub3d.h"
 
 int		checkcollision(double x, double y, t_data *data)
 {

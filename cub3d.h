@@ -138,4 +138,6 @@ void	set_position(t_player *player, float pos_x, float pos_y);
 void	clear_image(t_imgdata *img, void *win, void *mlx);
 void	game_loop(t_data *data);
 map_t	*mapstructinit();
+void	draw_walls(t_data *data, t_raydist rdist, int r, t_imgdata *texture);
+t_pos	*posstructinit();
 #endif

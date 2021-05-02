@@ -13,3 +13,16 @@ map_t	*mapstructinit()
 	map->map_s = 64;
 	return (map);
 }
+
+t_pos	*posstructinit()
+{
+	t_pos	*p;
+
+	if (!(p = (t_pos *)malloc(sizeof (t_pos))))
+		return (NULL);
+	p->color = 0;
+	p->x = 0;
+	p->y = 0;
+	p->z = 0;
+	return (p);
+}

@@ -1,8 +1,8 @@
 R 1280 720
-NO ./pathNO.xpm
-EA ./pathEA.xpm
-SO ./pathSO.xpm
-WE ./pathWE.xpm
+NO ./textures/brick.xpm
+EA ./textures/brick.xpm
+SO ./textures/brick.xpm
+WE ./textures/brick.xpm
 S ./pathSP.xpm
 F 220,100,0
 C 50,168,166
