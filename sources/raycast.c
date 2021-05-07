@@ -101,6 +101,7 @@ void	raycast(t_data *data)
 	int color;
 	t_ray	rh;
 	t_ray	rv;
+	t_ray	rt;
 	t_pos	m;
 	t_raydist	rdist;
 	
@@ -119,12 +120,14 @@ void	raycast(t_data *data)
 		{
 			//imgdrawray(data, &rh, 0x00FF00);
 			rdist.tdist = rdist.hdist;
+			rt = rh;
 			color = 0x00FF00;
 		}
 		else if ((rdist.vdist != -1 && rdist.vdist < rdist.hdist) || rdist.hdist == -1)
 		{
 			//imgdrawray(data, &rv, 0xFF0000);
 			rdist.tdist = rdist.vdist;
+			rt = rv;
 			color = 0xFF0000;
 		}
 		ca = data->player->a - rh.a;
@@ -133,7 +136,7 @@ void	raycast(t_data *data)
 		if (ca > 2 * M_PI)
 			ca -= 2 * M_PI;
 		rdist.tdist = rdist.tdist * cos(ca);
-		draw_walls(data, rdist, i, data->no_texture);
+		draw_walls(data, rdist, i, data->no_texture, &rt);
 		i++;
 	}
 }

@@ -64,14 +64,12 @@ int		render_next_frame(t_data *data)
 
 static void	set_texture(t_data *data, t_imgdata *texture)
 {
-	printf("%s\n, %d\n, %d\n", texture->path, texture->width, texture->height);
 	if (!(texture->img =
 			mlx_xpm_file_to_image(data->mlx_ptr,
 			texture->path,
 			&texture->width,
 			&texture->height)))
 		exit_failure("Impossible to load a texture\n", data);
-	printf("dd\n");
 	texture->addr =
 		mlx_get_data_addr(texture->img,
 		&(texture->bits_per_pixel),
