@@ -1,8 +1,8 @@
 R 1280 720
-NO ./textures/brick.xpm
-EA ./textures/brick.xpm
-SO ./textures/brick.xpm
-WE ./textures/brick.xpm
+NO ./textures/wood.xpm
+EA ./textures/wood.xpm
+SO ./textures/wood.xpm
+WE ./textures/wood.xpm
 S ./pathSP.xpm
 F 220,100,0
 C 50,168,166

@@ -10,10 +10,18 @@ void	imgdrawtexturecol(t_pos a, t_pos b, t_data *data, t_imgdata *texture, float
 	i = a.y;
 	ty = toffset * step;
 	//tx = 0;
-	printf("mdr: %d\n", texture->width);
-	printf("%d\n", data->map->map_s / texture->width);
-	tx = ((int)(ray->x) * (texture->height / data->map->map_s)) % texture->height;
-	printf("tx: %f\n", tx);
+	if (texture == data->so_texture || texture == data->no_texture)
+	{
+		tx = ((int)(ray->x) * (texture->height / data->map->map_s)) % texture->height;
+		if (ray->a < M_PI)
+			tx = texture->height - 1 - tx;
+	}
+	else
+	{
+		tx = ((int)(ray->y) * (texture->height / data->map->map_s)) % texture->height;
+		if (ray->a > M_PI / 2 && ray->a < M_PI + (M_PI / 2))
+			tx = texture->height - 1 - tx;
+	}
 	while (i < b.y)
 	{
 		src = texture->addr + (int)ty * texture->line_length + (int)tx * (texture->bits_per_pixel / 8);
