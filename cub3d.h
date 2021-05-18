@@ -140,4 +140,5 @@ void	game_loop(t_data *data);
 map_t	*mapstructinit();
 void	draw_walls(t_data *data, t_raydist rdist, int r, t_imgdata *texture, t_ray *ray);
 t_pos	*posstructinit();
+void	imgdrawray(t_data *data, t_ray *r, int color);
 #endif

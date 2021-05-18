@@ -99,6 +99,7 @@ void	raycast(t_data *data)
 	int i;
 	float	ca;
 	int color;
+	double dr;
 	t_imgdata	*texture;
 	t_ray	rh;
 	t_ray	rv;
@@ -107,9 +108,10 @@ void	raycast(t_data *data)
 	t_raydist	rdist;
 	
 	i= 0;
-	while (i < 80)
+	dr = (80 / (double)data->win_width) * DR;
+	while (i < data->win_width)
 	{
-		rh.a = data->player->a - DR * (40 - i);
+		rh.a = data->player->a - dr * ((data->win_width / 2) - i);
 		if (rh.a < 0)
 			rh.a += 2 * M_PI;
 		if (rh.a > 2 * M_PI)

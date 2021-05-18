@@ -50,12 +50,12 @@ void	draw_walls(t_data *data, t_raydist rdist, int r, t_imgdata *texture, t_ray 
 		lineH = data->win_height;
 	}
 	lineO = data->win_height / 2 - lineH / 2;
-	a.x = 16 * r;
-	b.x = 16 * r;
+	a.x = 1 * r;
+	b.x = 1 * r;
 	a.y = lineO;
 	b.y = lineH + lineO;
 	i = 0;
-	while(i < 16)
+	while(i < 1)
 	{
 		imgdrawtexturecol(a, b, data, texture, step, toffset, ray);
 		a.x += 1;

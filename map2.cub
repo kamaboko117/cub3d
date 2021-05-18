@@ -1,8 +1,8 @@
 R 640 480
-NO ./pathNO.xpm
-EA ./pathEA.xpm
-SO ./pathSO.xpm
-WE ./pathWE.xpm
+NO ./textures/wood.xpm
+EA ./textures/brick.xpm
+SO ./textures/diamond.xpm
+WE ./textures/wood.xpm
 S ./pathSP.xpm
 
         1111111111111111111111111

@@ -37,7 +37,7 @@ void	imgdrawbg(t_imgdata *img, int xres, int yres, t_data *data)
 	while(xres >= 0)
 	{
 		i = yres;
-		while(i >= 0 && i)
+		while(i >= 0)
 		{
 			if(i < yres / 2)
 				imgputpixel(img, xres, i, data->c_color);
