@@ -64,7 +64,7 @@ typedef struct	s_raydist
 {
 	double	hdist;
 	double	vdist;
-	double	tdist;
+	double	*tdist;
 }				t_raydist;
 typedef	struct	s_inputs
 {
@@ -75,6 +75,28 @@ typedef	struct	s_inputs
 	char	left;
 	char	right;
 }				t_inputs;
+typedef struct	s_sprite
+{
+	t_pos				*pos;
+	double				distance;
+	int					draw_start_x;
+	int					draw_end_x;
+	int					draw_start_y;
+	int					draw_end_y;
+	double				sprite_x;
+	double				sprite_y;
+	double				inv_det;
+	double				transform_x;
+	double				transform_y;
+	int					sprite_screen_x;
+	int					sprite_height;
+	int					sprite_width;
+	int					text_x;
+	int					text_y;
+	int					x;
+	int					y;
+	struct s_sprite		*next;
+}				t_sprite;
 typedef struct	data_s
 {
 	int			win_height;
@@ -94,6 +116,7 @@ typedef struct	data_s
 	t_imgdata	*so_texture;
 	t_imgdata	*we_texture;
 	t_imgdata	*sp_texture;
+	t_sprite	*sprite_head;
 	map_t		*map;
 }                 t_data;
 
@@ -141,4 +164,5 @@ map_t	*mapstructinit();
 void	draw_walls(t_data *data, t_raydist rdist, int r, t_imgdata *texture, t_ray *ray);
 t_pos	*posstructinit();
 void	imgdrawray(t_data *data, t_ray *r, int color);
+t_imgdata	*imgstructinit();
 #endif

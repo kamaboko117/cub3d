@@ -60,6 +60,7 @@ t_data		*datainit()
 	data->save = 0;
 	data->c_color = 0;
 	data->f_color = 0;
+	data->sprite_head = NULL;
 	if (!(data->no_texture = imgstructinit()) 
 		|| !(data->ea_texture = imgstructinit())
 		|| !(data->so_texture = imgstructinit())

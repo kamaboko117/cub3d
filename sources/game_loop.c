@@ -84,8 +84,8 @@ void		get_texture(t_data *data)
 	set_texture(data, data->so_texture);
 	set_texture(data, data->we_texture);
 	set_texture(data, data->ea_texture);
-//	if (data->sp_texture->path)
-//		set_texture(data, data->sp_texture);
+	if (data->sp_texture->path)
+		set_texture(data, data->sp_texture);
 }
 
 void	game_loop(t_data *data)
@@ -99,6 +99,7 @@ void	game_loop(t_data *data)
 	get_texture(data);
 	mlx_hook(data->mlx_win, 2, 1L<<0, key_hook, data);
 	mlx_hook(data->mlx_win, 3, 1L<<1, key_realease_hook, data);
+	img = imgstructinit();
 	img->img = mlx_new_image(data->mlx_ptr, data->win_width, data->win_height);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
 	img->height = data->win_height;
@@ -115,5 +116,5 @@ void	game_loop(t_data *data)
 //	printf("?\n");
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, img->img, 0, 0);
 	mlx_loop_hook(data->mlx_ptr, render_next_frame, data);
-	mlx_loop(data->mlx_ptr);
+	mlx_loop(data->mlx_ptr); 
 }

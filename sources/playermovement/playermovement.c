@@ -4,7 +4,7 @@ int		checkcollision(double x, double y, t_data *data)
 {
 	x = x / data->map->map_s;
 	y = y / data->map->map_s;
-	if (data->map->map[(int)y][(int)x] == 1)
+	if (data->map->map[(int)y][(int)x] >= 1)
 		return (1);
 	return(0);
 }
@@ -60,5 +60,5 @@ void	moveplayer(t_data *data)
 		lookleft(data->player, sensitivity);
 	if (data->inputs->right == 1)
 		lookright(data->player, sensitivity);
-	printf("x: %f | y: %f | a: %f\n", data->player->x, data->player->y, data->player->a);
+	//printf("x: %f | y: %f | a: %f\n", data->player->x, data->player->y, data->player->a);
 }
