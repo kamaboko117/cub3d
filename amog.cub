@@ -1,8 +1,8 @@
 R 1280 720
-NO ./textures/wood.xpm
-EA ./textures/cat.xpm
-SO ./textures/wood.xpm
-WE ./textures/brick.xpm
+NO ./textures/mirror.xpm
+EA ./textures/mirror.xpm
+SO ./textures/mirror.xpm
+WE ./textures/mirror.xpm
 S ./textures/squirrel.animated/0.xpm
 F 220,100,0
 C 50,168,166

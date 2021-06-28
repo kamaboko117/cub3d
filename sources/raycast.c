@@ -1,9 +1,13 @@
 #include "../cub3d.h"
 
-double	dist(t_player *a, t_ray *b)
+double	ray_dist(t_player *a, t_ray *b)
 {
 	return(sqrt((b->x - a->x) * (b->x - a->x) + (b->y - a->y) * (b->y - a->y)));
-	
+}
+
+double	dist(t_pos *a, t_pos *b)
+{
+	return(sqrt((b->x - a->x) * (b->x - a->x) + (b->y - a->y) * (b->y - a->y)));
 }
 
 t_sprite	*sprite_struct_init(t_pos *pos, t_pos *mpos, double distance, int screenx)
@@ -79,7 +83,7 @@ void		is_sprite(t_data *data, t_ray *ray, int i, t_pos *m)
 		current = current->next;
 	}
 	distance = sqrt((newpos->x - data->player->x) * (newpos->x - data->player->x) + (newpos->y - data->player->y) * (newpos->y - data->player->y));
-	printf("current distance: %f, newpos x: %d, newpos y: %d, player x: %f, player y: %f\n", distance, newpos->x, newpos->y, data->player->x, data->player->y);
+//	printf("current distance: %f, newpos x: %d, newpos y: %d, player x: %f, player y: %f\n", distance, newpos->x, newpos->y, data->player->x, data->player->y);
 	new_sprite = sprite_struct_init(newpos, m, distance, i);
 	sorted_insert(&(data->sprite_head), new_sprite);
 }
@@ -131,7 +135,7 @@ double	horizontalcheck(t_data *data, t_ray *r, int screenx, int dof)
 	//	printf("H: mz: %d my: %d, mapX: %d, mx: %d\n", m->z, m->y, data->map->map_x, m->x);
 	free(m);
 	if(r->x > 0 && r->y > 0)
-		return (dist(data->player, r));
+		return (ray_dist(data->player, r));
 	return (-1);
 }
 
@@ -182,12 +186,117 @@ double	verticalcheck(t_data *data, t_ray *r, int screenx, int dof)
 //	printf("%f\n", r->x);
 	free(m);
 	if(r->x >= 0 && r->y >= 0)
-		return(dist(data->player, r));
+		return(ray_dist(data->player, r));
 	return (-1);
+}
+
+float	calculate_angle(t_data *data, t_pos *p)
+{
+	float	hypotenuse;
+	float	angle;
+	t_pos	*origin;
+	float	cos;
+
+	origin->x = 0;
+	origin->y = 0;
+	printf ("px: %d, py: %d, playerx: %f, playery: %f\n",p->x, p->y, data->player->x, data->player->y);
+	p->x -= data->player->x;
+	p->y -= data->player->y;
+	printf ("px: %d, py: %d, playerx: %f, playery: %f\n",p->x, p->y, data->player->x, data->player->y);
+	hypotenuse = dist(origin, p);
+	cos = (p->x) / hypotenuse;
+	printf("cos: %f\n", cos);
+//	printf("px: %f, playerx: %f, py: %f\n", p->x, data->player->x, p->y);
+	if(p->x < 0)
+	{
+		printf("1\n");
+		if(p->y < 0)
+		{
+			printf("case a\n");
+			angle = -acos(cos);
+		//	angle = M_PI - angle;
+		}
+		if (p->y > 0)
+		{
+			printf("case b\n");
+			angle = acos(cos);
+		//	angle = M_PI + angle;
+		}
+		if (p->y == 0)
+			angle = M_PI;
+	}
+	if(p->x > 0)
+	{
+		printf("2\n");
+		if (p->y == 0)
+			angle = 0;
+		if (p->y < 0)
+		{
+			printf("case a2\n");
+			angle = -acos(cos);
+		}
+		if(p->y > 0)
+		{
+			printf("case b2\n");
+			angle =acos(cos);
+		}
+	}
+	if(p->x == 0)
+	{
+		if (p->y > 0)
+			angle = M_PI / 2;
+		else
+			angle = M_PI + M_PI / 2;
+	}
+	printf("angle: %f, player a: %f\n", angle, data->player->a);
+	angle = angle - data->player->a;
+	if (angle <= M_PI + M_PI / 3)
+		angle += 2 * M_PI;
+	if (angle >= M_PI + M_PI / 3)
+		angle -= 2 * M_PI;
+	return (angle);
+}
+
+t_posf	*posfstructinit()
+{
+	t_posf	*p;
+
+	if (!(p = (t_posf *)malloc(sizeof (t_posf))))
+		return (NULL);
+	p->color = 0;
+	p->x = 0;
+	p->y = 0;
+	p->z = 0;
+	return (p);
+}
+
+int		get_screen_x(t_data *data, t_sprite *sprite)
+{
+	int		i;
+	t_pos	p;
+	float	angle;
+	double	dr;
+
+	p = *posstructinit();
+	p.x = sprite->pos->x;
+	p.y = sprite->pos->y;
+	printf("px: %d, p.y: %d\n", p.x, p.y);
+	angle = calculate_angle(data, &p);
+	printf("angle : %f\n", angle);
+	angle = angle / DR;
+	printf("angle in degrees: %f\n", angle);
+	i = data->win_width / 2;
+	dr = (80 / (double)data->win_width);
+	i += angle / dr;
+	printf("i: %d, dr: %f\n", i, dr);
+	return (i);
+	
 }
 
 void	project_sprite(t_data *data, t_sprite *sprite, double lineH)
 {
+	sprite->sprite_screen_x = get_screen_x(data, sprite);
+	printf("test\n"); 
 	sprite->draw_start_x = sprite->sprite_screen_x; 
 	sprite->draw_end_x = sprite->draw_start_x + lineH;
 	if (lineH > data->win_height)
@@ -209,34 +318,36 @@ void	put_sprite(t_data *data, t_sprite *sprite, t_raydist *rdist, double lineH)
 	int		i;
 	int		j;
 
-	printf("sp line length: %d\n", data->sp_texture->line_length);
+//	printf("sp line length: %d\n", data->sp_texture->line_length);
 	step = data->sp_texture->height / lineH;
 	tyoffset = 0;
+	txoffset = 0;
 	if (lineH > data->win_height)
 	{
 		tyoffset = (lineH - data->win_height) / 2;
-		lineH = data->win_height;
 	}
 	if (sprite->draw_start_x < 0)
 	{
+		
 		txoffset = (lineH - data->win_width) / 2;
 		sprite->draw_start_x = 0;
+		printf("txoffset: %f\n", txoffset);
 	}
 	i = sprite->draw_start_x;
 //	ty = tyoffset * step;
-	ty = 0.01;
+	tx = txoffset * step;
 	while (i < sprite->draw_end_x)
 	{
 		j = sprite->draw_start_y;
-		ty = 0.001;
+		ty = tyoffset * step;
 	//	printf("j: %d, draw end y: %d, i: %d, draw end x: %d, sprite distance: %f, rdist: %f, sprite texture: %s\n", j, sprite->draw_end_y, i, sprite->draw_end_x, sprite->distance, rdist->tdist[i], data->sp_texture->path);
 		while (j < sprite->draw_end_y && sprite->distance < rdist->tdist[i]) 
 		{
 			//printf("src: %s, ty: %d\n", src, (int)ty);
-			src = data->sp_texture->addr + (int)ty * data->sp_texture->line_length + (int)tx * (data->sp_texture->bits_per_pixel / 8); // using ty twice since it should be the same as tx
+			src = data->sp_texture->addr + (int)ty * data->sp_texture->line_length + (int)tx * (data->sp_texture->bits_per_pixel / 8);
 			if (*(unsigned int*)src != 0xFF000000)
-				*(unsigned int*)(data->img->addr + (j * data->img->line_length + i * (data->img->bits_per_pixel / 8))) = *(unsigned int*)src; //segv here
-			ty += step; //change
+				*(unsigned int*)(data->img->addr + (j * data->img->line_length + i * (data->img->bits_per_pixel / 8))) = *(unsigned int*)src;
+			ty += step; 
 			j++;
 		}
 		tx += step;

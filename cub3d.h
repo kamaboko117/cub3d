@@ -22,6 +22,13 @@ typedef struct	s_pos
     int	z;
     int	color;
 }                t_pos;
+typedef struct	s_posf
+{
+    double	y;
+    double	x;
+    double	z;
+    int	color;
+}                t_posf;
 typedef struct	player_s
 {
 	char	dir;
