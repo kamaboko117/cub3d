@@ -92,9 +92,6 @@ typedef struct	s_sprite
 	int					draw_end_y;
 	double				sprite_x;
 	double				sprite_y;
-	double				inv_det;
-	double				transform_x;
-	double				transform_y;
 	int					sprite_screen_x;
 	int					sprite_height;
 	int					sprite_width;
@@ -102,6 +99,7 @@ typedef struct	s_sprite
 	int					text_y;
 	int					x;
 	int					y;
+	float				angle;
 	struct s_sprite		*next;
 }				t_sprite;
 typedef struct	data_s
@@ -172,4 +170,5 @@ void	draw_walls(t_data *data, t_raydist rdist, int r, t_imgdata *texture, t_ray 
 t_pos	*posstructinit();
 void	imgdrawray(t_data *data, t_ray *r, int color);
 t_imgdata	*imgstructinit();
+float	calculate_angle(t_data *data, int x, int y);
 #endif
