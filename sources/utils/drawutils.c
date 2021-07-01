@@ -7,7 +7,7 @@ void	imgputpixel(t_imgdata *img, int x, int y, int color)
 //	printf("%d x %d\n", img->width, img->height);
 	if (x < 0 || x > img->width || y < 0 || y > img->height)
 		return;
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
 	*(unsigned int*)dst = color;
 }
 

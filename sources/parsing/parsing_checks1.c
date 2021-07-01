@@ -66,12 +66,12 @@ static void	check_map(t_data *data)
 
 void		check_cub_data(t_data *data)
 {
-	if (data->win_height == 0 || data->win_width == 0)   // might not be the good data (pointer)
+	if (data->win_h == 0 || data->win_w == 0)   // might not be the good data (pointer)
 	{
 		clear_game(data);
 		exit_failure("Resolution missing\n", data);
 	}
-	check_dimensions(&(data->win_width), &(data->win_height));    //check this
+	check_dimensions(&(data->win_w), &(data->win_h));    //check this
 	check_texture(data, data->no_texture->path);
 	check_texture(data, data->so_texture->path);
 	check_texture(data, data->we_texture->path);

@@ -1,10 +1,11 @@
 #include "../cub3d.h"
 
-map_t	*mapstructinit()
+map_t	*mapstructinit(void)
 {
-	map_t *map;
+	map_t	*map;
 
-	if (!(map = (map_t *)malloc(sizeof(map_t))))
+	map = (map_t *)malloc(sizeof(map_t));
+	if (map == NULL)
 		return (NULL);
 	map->map = NULL;
 	map->tmpmap = NULL;
@@ -14,11 +15,12 @@ map_t	*mapstructinit()
 	return (map);
 }
 
-t_pos	*posstructinit()
+t_pos	*posstructinit(void)
 {
 	t_pos	*p;
 
-	if (!(p = (t_pos *)malloc(sizeof (t_pos))))
+	p = (t_pos *)malloc(sizeof (t_pos));
+	if (p == NULL)
 		return (NULL);
 	p->color = 0;
 	p->x = 0;

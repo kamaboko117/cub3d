@@ -24,8 +24,8 @@ void	imgdrawtexturecol(t_pos a, t_pos b, t_data *data, t_imgdata *texture, float
 	}
 	while (i < b.y)
 	{
-		src = texture->addr + (int)ty * texture->line_length + (int)tx * (texture->bits_per_pixel / 8);
-		*(unsigned int*)(data->img->addr + (i * data->img->line_length + a.x * (data->img->bits_per_pixel / 8))) = *(unsigned int*)src;
+		src = texture->addr + (int)ty * texture->line_len + (int)tx * (texture->bpp / 8);
+		*(unsigned int*)(data->img->addr + (i * data->img->line_len + a.x * (data->img->bpp / 8))) = *(unsigned int*)src;
 		ty += step;
 		i++;
 	}
@@ -41,15 +41,15 @@ void	draw_walls(t_data *data, t_raydist rdist, int r, t_imgdata *texture, t_ray 
 	float	step;
 	int		i;
 	
-	lineH = (data->map->map_s * data->win_height)/ rdist.tdist[r];
+	lineH = (data->map->map_s * data->win_h)/ rdist.tdist[r];
 	step = texture->height / lineH;
 	toffset = 0;
-	if (lineH > data->win_height)
+	if (lineH > data->win_h)
 	{
-		toffset = (lineH - data->win_height) / 2;
-		lineH = data->win_height;
+		toffset = (lineH - data->win_h) / 2;
+		lineH = data->win_h;
 	}
-	lineO = data->win_height / 2 - lineH / 2;
+	lineO = data->win_h / 2 - lineH / 2;
 	a.x = 1 * r;
 	b.x = 1 * r;
 	a.y = lineO;

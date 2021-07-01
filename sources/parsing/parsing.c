@@ -42,7 +42,7 @@ static void	get_data(char *line, t_data *data)
 
 	trim = ft_strtrim(line, " ");
 	if (!ft_strncmp(trim, "R", 1))
-		get_resolution(line, &data->win_width, &data->win_height);
+		get_resolution(line, &data->win_w, &data->win_h);
 	else if (!ft_strncmp(trim, "NO", 2))
 		get_texture_path(line, data->no_texture);
 	else if (!ft_strncmp(trim, "EA", 2))
