@@ -230,7 +230,7 @@ int main(void)
 //	mlx_hook(data.mlx_win, 6, 1L<<6, display_button, &data);
 
 	img.img = mlx_new_image(data.mlx_ptr, 1024, 512);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.line_len, &img.endian);
 	data.img = img;
 	data.map = mapinit(&data);
 	displaymaparray(&data.map);

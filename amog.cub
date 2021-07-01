@@ -3,7 +3,7 @@ NO ./textures/wood.xpm
 EA ./textures/wood.xpm
 SO ./textures/cat.xpm
 WE ./textures/cat.xpm
-S ./textures/squirrel.animated/0.xpm
+S ./textures/sprite.xpm
 F 255,0,0
 C 50,168,166
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3D.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/30 17:52:20 by asaboure          #+#    #+#             */
+/*   Updated: 2021/06/30 18:03:09 by asaboure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft/libft.h"
 #include "cub3d.h"
 #include <mlx.h>
@@ -7,7 +19,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-int			get_color_handle(char **rgb, t_data *data)
+int	get_color_handle(char **rgb, t_data *data)
 {
 	int	r;
 	int	g;
@@ -31,7 +43,7 @@ int			get_color_handle(char **rgb, t_data *data)
 	return (color);
 }
 
-void		get_color(char *line, int *color, t_data *data)
+void	get_color(char *line, int *color, t_data *data)
 {
 	int		i;
 	char	**rgb;
@@ -53,7 +65,7 @@ static void	cub3d(char *cub_path, int save, t_data *data)
 	game_loop(data);
 }
 
-int			checkargs(char *cub_path, char *option, t_data *data)
+int	checkargs(char *cub_path, char *option, t_data *data)
 {
 	char	**path;
 	int		path_len;
@@ -76,11 +88,12 @@ int			checkargs(char *cub_path, char *option, t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-int			main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_data		*data;
 
-	if (!(data = datainit()))
+	data = datainit();
+	if (data == NULL)
 	{
 		puterror("failed to allocate memory for data structure\n");
 		exit (EXIT_FAILURE);

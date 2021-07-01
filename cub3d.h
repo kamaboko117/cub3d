@@ -52,8 +52,8 @@ typedef struct	imgdata_s
 {
 	void	*img;
 	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
+	int		bpp;
+	int		line_len;
 	int		endian;
 	int		width;
 	int		height;
@@ -67,11 +67,19 @@ typedef struct	s_ray
 	double	xo;
 	double	yo;	
 }				t_ray;
+typedef struct	s_rays
+{
+	t_ray		*h;
+	t_ray		*v;
+	t_ray		*t;
+	t_pos		*p;
+	t_imgdata	*texture;
+}				t_rays;
 typedef struct	s_raydist
 {
-	double	hdist;
-	double	vdist;
-	double	*tdist;
+	double	hd;
+	double	vd;
+	double	*td;
 }				t_raydist;
 typedef	struct	s_inputs
 {
@@ -90,22 +98,20 @@ typedef struct	s_sprite
 	int					draw_end_x;
 	int					draw_start_y;
 	int					draw_end_y;
-	double				sprite_x;
-	double				sprite_y;
 	int					sprite_screen_x;
-	int					sprite_height;
-	int					sprite_width;
-	int					text_x;
-	int					text_y;
 	int					x;
 	int					y;
 	float				angle;
+	float				tyoffset;
+	float				txoffset;
+	float				ty;
+	float				tx;
 	struct s_sprite		*next;
 }				t_sprite;
 typedef struct	data_s
 {
-	int			win_height;
-	int			win_width;
+	int			win_h;
+	int			win_w;
     void		*mlx_ptr;
     void		*mlx_win;
 	int			map_started;
@@ -171,4 +177,5 @@ t_pos	*posstructinit();
 void	imgdrawray(t_data *data, t_ray *r, int color);
 t_imgdata	*imgstructinit();
 float	calculate_angle(t_data *data, int x, int y);
+void	get_texture(t_data *data);
 #endif

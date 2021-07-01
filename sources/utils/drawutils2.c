@@ -41,7 +41,7 @@ void	draw_walls(t_data *data, t_raydist rdist, int r, t_imgdata *texture, t_ray 
 	float	step;
 	int		i;
 	
-	lineH = (data->map->map_s * data->win_h)/ rdist.tdist[r];
+	lineH = (data->map->map_s * data->win_h)/ rdist.td[r];
 	step = texture->height / lineH;
 	toffset = 0;
 	if (lineH > data->win_h)

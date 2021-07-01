@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycast.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/01 20:24:26 by asaboure          #+#    #+#             */
+/*   Updated: 2021/07/01 21:28:51 by asaboure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
 double	ray_dist(t_player *a, t_ray *b)
@@ -31,11 +43,11 @@ t_sprite	*sprite_struct_init(t_data *data, t_pos *pos, t_pos *mpos,
 	sprite->draw_end_x = 0;
 	sprite->draw_start_y = 0;
 	sprite->draw_end_y = 0;
-	sprite->sprite_x = 0;
-	sprite->sprite_y = 0;
 	sprite->sprite_screen_x = 0;
-	sprite->sprite_height = 0;
-	sprite->sprite_width = 0;
+	sprite->tx = 0;
+	sprite->txoffset = 0;
+	sprite->ty = 0;
+	sprite->tyoffset = 0;
 	sprite->x = mpos->x;
 	sprite->y = mpos->y;
 	return (sprite);
@@ -195,31 +207,16 @@ float	calculate_angle(t_data *data, int x, int y)
 	y -= data->player->y;
 	hypotenuse = dist(origin, x, y);
 	cos = (x) / hypotenuse;
-	if (x < 0)
+	if (y < 0)
+		angle = -acos(cos);
+	if (y > 0)
+		angle = acos(cos);
+	if (y == 0)
 	{
-		if (y < 0)
-		{
-			angle = -acos(cos);
-		}
-		if (y > 0)
-		{
-			angle = acos(cos);
-		}
-		if (y == 0)
+		if (x < 0)
 			angle = M_PI;
-	}
-	if (x > 0)
-	{
-		if (y == 0)
+		if (x > 0)
 			angle = 0;
-		if (y < 0)
-		{
-			angle = -acos(cos);
-		}
-		if (y > 0)
-		{
-			angle =acos(cos);
-		}
 	}
 	if (x == 0)
 	{
@@ -236,11 +233,12 @@ float	calculate_angle(t_data *data, int x, int y)
 	return (angle);
 }
 
-t_posf	*posfstructinit()
+t_posf	*posfstructinit(void)
 {
 	t_posf	*p;
 
-	if (!(p = (t_posf *)malloc(sizeof (t_posf))))
+	p = (t_posf *)malloc(sizeof (t_posf));
+	if (p == NULL)
 		return (NULL);
 	p->color = 0;
 	p->x = 0;
@@ -280,44 +278,51 @@ void	project_sprite(t_data *data, t_sprite *sprite, double lineH)
 	sprite->draw_end_y = sprite->draw_start_y + lineH;
 }
 
-void	put_sprite(t_data *data, t_sprite *sprite, t_raydist *rdist, double lineH)
+void	put_sprite_setup(t_data *data, t_sprite *s, double lineH)
+{
+	if (lineH > data->win_h)
+		s->tyoffset = (lineH - data->win_h) / 2;
+	if (s->draw_start_x < 0)
+	{
+		s->txoffset = - (s->draw_start_x);
+		s->draw_start_x = 0;
+	}
+}
+
+static void	draw(t_data *data, t_sprite *s, int i, int j)
+{
+	char	*src;
+
+	src = data->sp_texture->addr + (int)s->ty * data->sp_texture
+		->line_len + (int)s->tx * (data->sp_texture->bpp / 8);
+	if (*(unsigned int *)src != 0xFF000000)
+		*(unsigned int *)(data->img->addr + (j * data->img->line_len
+					+ i * (data->img->bpp / 8))) = *(unsigned int *)src;
+}
+
+void	put_sprite(t_data *data, t_sprite *s, t_raydist *rdist,
+		double lineH)
 {
 	float	step;
-	float	xstep;
-	float	tyoffset;
-	float	ty;
-	float	tx;
-	float	txoffset;
 	char	*src;
 	int		i;
 	int		j;
 
 	step = data->sp_texture->height / lineH;
-	xstep = data->sp_texture->width / lineH;
-	tyoffset = 0;
-	txoffset = 0;
-	if (lineH > data->win_h)
-		tyoffset = (lineH - data->win_h) / 2;
-	if (sprite->draw_start_x < 0)
+	put_sprite_setup(data, s, lineH);
+	i = s->draw_start_x;
+	s->tx = s->txoffset * step;
+	while (i < s->draw_end_x)
 	{
-		txoffset = - (sprite->draw_start_x);
-		sprite->draw_start_x = 0;
-	}
-	i = sprite->draw_start_x;
-	tx = txoffset * step;
-	while (i < sprite->draw_end_x)
-	{
-		j = sprite->draw_start_y;
-		ty = tyoffset * step;
-		while (j < sprite->draw_end_y && sprite->distance < rdist->tdist[i])
+		j = s->draw_start_y;
+		s->ty = s->tyoffset * step;
+		while (j < s->draw_end_y && s->distance < rdist->td[i])
 		{
-			src = data->sp_texture->addr + (int)ty * data->sp_texture->line_len + (int)tx * (data->sp_texture->bpp / 8);
-			if (*(unsigned int *)src != 0xFF000000)
-				*(unsigned int *)(data->img->addr + (j * data->img->line_len + i * (data->img->bpp / 8))) = *(unsigned int *)src;
-			ty += step;
+			draw(data, s, i, j);
+			s->ty += step;
 			j++;
 		}
-		tx += step;
+		s->tx += step;
 		i++;
 	}
 }
@@ -353,59 +358,94 @@ void	draw_sprites(t_data *data, t_raydist *rdist)
 	free_sprites(&data->sprite_head);
 }
 
+t_ray	*ray_struct_init(void)
+{
+	t_ray	*r;
+
+	r = (t_ray *)malloc(sizeof(t_ray));
+	if (r == NULL)
+		return (NULL);
+	r->a = 0;
+	r->x = 0;
+	r->xo = 0;
+	r->y = 0;
+	r->yo = 0;
+	return (r);
+}
+
+t_rays	*rays_struct_init(void)
+{
+	t_rays	*r;
+
+	r = (t_rays *)malloc(sizeof(t_rays));
+	if (r == NULL)
+		return (NULL);
+	r->h = ray_struct_init();
+	r->p = posstructinit();
+	r->t = ray_struct_init();
+	r->texture = imgstructinit();
+	r->v = ray_struct_init();
+	return (r);
+}
+
+double	totalcheck(t_data *data, t_raydist rdist, t_rays *r)
+{
+	double	td;
+
+	if ((rdist.hd != -1 && rdist.hd < rdist.vd) || rdist.vd == -1)
+	{
+		if (r->h->a >= 0 && r->h->a < M_PI)
+			r->texture = data->no_texture;
+		else
+			r->texture = data->so_texture;
+		td = rdist.hd;
+		r->t = r->h;
+	}
+	else if ((rdist.vd != -1 && rdist.vd < rdist.hd) || rdist.hd == -1)
+	{
+		if (r->h->a >= M_PI / 2 && r->h->a < M_PI + (M_PI / 2))
+			r->texture = data->we_texture;
+		else
+			r->texture = data->ea_texture;
+		td = rdist.vd;
+		r->t = r->v;
+	}
+	return (td);
+}
+
+double	limit_angle(double a)
+{
+	if (a < 0)
+		a += 2 * M_PI;
+	if (a > 2 * M_PI)
+		a -= 2 * M_PI;
+	return (a);
+}
+
 void	raycast(t_data *data)
 {
 	int			i;
 	float		ca;
-	int			color;
 	double		dr;
-	t_imgdata	*texture;
-	t_ray		rh;
-	t_ray		rv;
-	t_ray		rt;
-	t_pos		m;
+	t_rays		*r;
 	t_raydist	rdist;
 
-	rdist.tdist = (double *)malloc(sizeof(double) * data->win_w);
+	r = rays_struct_init();
+	rdist.td = (double *)malloc(sizeof(double) * data->win_w);
 	i = 0;
 	dr = (80 / (double)data->win_w) * DR;
 	while (i < data->win_w)
 	{
-		rh.a = data->player->a - dr * ((data->win_w / 2) - i);
-		if (rh.a < 0)
-			rh.a += 2 * M_PI;
-		if (rh.a > 2 * M_PI)
-			rh.a -= 2 * M_PI;
-		rv.a = rh.a;
-		rdist.hdist = horizontalcheck(data, &rh, i, 8);
-		rdist.vdist = verticalcheck(data, &rv, i, 8);
-		if ((rdist.hdist != -1 && rdist.hdist < rdist.vdist) || rdist.vdist == -1)
-		{
-			if (rh.a >= 0 && rh.a < M_PI)
-				texture = data->no_texture;
-			else
-				texture = data->so_texture;
-			rdist.tdist[i] = rdist.hdist;
-			rt = rh;
-			color = 0x00FF00;
-		}
-		else if ((rdist.vdist != -1 && rdist.vdist < rdist.hdist) || rdist.hdist == -1)
-		{
-			if (rh.a >= M_PI / 2 && rh.a < M_PI + (M_PI / 2))
-				texture = data->we_texture;
-			else
-				texture = data->ea_texture;
-			rdist.tdist[i] = rdist.vdist;
-			rt = rv;
-			color = 0xFF0000;
-		}
-		ca = data->player->a - rh.a;
-		if (ca < 0)
-			ca += 2 * M_PI;
-		if (ca > 2 * M_PI)
-			ca -= 2 * M_PI;
-		rdist.tdist[i] = rdist.tdist[i] * cos(ca);
-		draw_walls(data, rdist, i, texture, &rt);
+		r->h->a = data->player->a - dr * ((data->win_w / 2) - i);
+		r->h->a = limit_angle(r->h->a);
+		r->v->a = r->h->a;
+		rdist.hd = horizontalcheck(data, r->h, i, 8);
+		rdist.vd = verticalcheck(data, r->v, i, 8);
+		rdist.td[i] = totalcheck(data, rdist, r);
+		ca = data->player->a - r->h->a;
+		ca = limit_angle(ca);
+		rdist.td[i] = rdist.td[i] * cos(ca);
+		draw_walls(data, rdist, i, r->texture, r->t);
 		i++;
 	}
 	draw_sprites(data, &rdist);
