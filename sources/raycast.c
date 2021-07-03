@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 20:24:26 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/01 21:28:51 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/03 20:07:22 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	sorted_insert(t_sprite **head_ref, t_sprite *new_node)
 	}
 }
 
-void	is_sprite(t_data *data, t_ray *ray, int i, t_pos *m)
+void	is_sprite(t_data *data, t_ray *ray, t_pos *m)
 {
 	t_pos		*newpos;
 	t_sprite	*new_sprite;
@@ -101,40 +101,62 @@ void	is_sprite(t_data *data, t_ray *ray, int i, t_pos *m)
 	sorted_insert(&(data->sprite_head), new_sprite);
 }
 
-double	horizontalcheck(t_data *data, t_ray *r, int screenx, int dof)
+int	set_vertical_ray(t_data *data, t_ray *r)
 {
-	double	aTan;
-	t_pos	*m;
+	if (r->a > M_PI / 2 && r->a < M_PI + M_PI / 2)
+	{
+		r->x = (((int)data->player->x >> 6) << 6) - 0.0001;
+		r->y = (data->player->x - r->x) * -tan(r->a) + data->player->y;
+		r->xo = -64;
+		r->yo = -r->xo * -tan(r->a);
+	}
+	if (r->a < M_PI / 2 || r->a > M_PI + M_PI / 2)
+	{
+		r->x = (((int)data->player->x >> 6) << 6) + 64;
+		r->y = (data->player->x - r->x) * -tan(r->a) + data->player->y;
+		r->xo = 64;
+		r->yo = -r->xo * -tan(r->a);
+	}
+	if (r->a == M_PI / 2 || r->a == M_PI + M_PI / 2 )
+		return (-1);
+}
 
-	m = posstructinit();
-	aTan = -1 / tan(r->a);
-	dof = 0;
+int	set_horizontal_ray(t_data *data, t_ray *r)
+{
 	if (r->a > M_PI)
 	{
 		r->y = (((int)data->player->y >> 6) << 6) - 0.0001;
-		r->x = (data->player->y - r->y) * aTan + data->player->x;
+		r->x = (data->player->y - r->y) * (-1 / tan(r->a)) + data->player->x;
 		r->yo = -64;
-		r->xo = -r->yo * aTan;
+		r->xo = -r->yo * (-1 / tan(r->a));
 	}
 	if (r->a < M_PI)
 	{
 		r->y = (((int)data->player->y >> 6) << 6) + 64;
-		r->x = (data->player->y - r->y) * aTan + data->player->x;
+		r->x = (data->player->y - r->y) * (-1 / tan(r->a)) + data->player->x;
 		r->yo = 64;
-		r->xo = -r->yo * aTan;
+		r->xo = -r->yo * (-1 / tan(r->a));
 	}
 	if (r->a == 0 || r->a == M_PI)
 		return (-1);
-	while (dof < 8 && m->y >= 0 && m->y < data->map->map_y && m->x >= 0 && m->x < data->map->map_x)
+}
+
+void	search_hor_wall(t_data *data, t_ray *r, t_pos *m)
+{
+	while (m->y >= 0 && m->y < data->map->map_y && m->x >= 0 && m->x < data->map
+		->map_x)
 	{
 		m->x = (int)(r->x) >> 6;
 		m->y = (int)(r->y) >> 6;
 		m->z = m->y * data->map->map_x + m->x;
-		if (m->x >= data->map->map_x || m->y >= data->map->map_y || m->x < 0 || m->y < 0)
+		if (m->x >= data->map->map_x || m->y >= data->map->map_y || m->x < 0
+			|| m->y < 0)
 			break ;
-		if (m->z > 0 && m->z < data->map->map_x * data->map->map_y && data->map->map[m->y][m->x] == 2)
-			is_sprite(data, r, screenx, m);
-		if (m->z > 0 && m->z < data->map->map_x * data->map->map_y && data->map->map[m->y][m->x] == 1)
+		if (m->z > 0 && m->z < data->map->map_x * data->map->map_y && data->map
+			->map[m->y][m->x] == 2)
+			is_sprite(data, r, m);
+		if (m->z > 0 && m->z < data->map->map_x * data->map->map_y && data->map
+			->map[m->y][m->x] == 1)
 			break ;
 		else
 		{
@@ -142,46 +164,38 @@ double	horizontalcheck(t_data *data, t_ray *r, int screenx, int dof)
 			r->y += r->yo;
 		}
 	}
+}
+
+double	horizontalcheck(t_data *data, t_ray *r)
+{
+	t_pos	*m;
+
+	m = posstructinit();
+	if (!set_horizontal_ray(data, r))
+		return (-1);
+	search_hor_wall(data, r, m);
 	free(m);
 	if (r->x > 0 && r->y > 0)
 		return (ray_dist(data->player, r));
 	return (-1);
 }
 
-double	verticalcheck(t_data *data, t_ray *r, int screenx, int dof)
+void	search_vert_walls(t_data *data, t_ray *r, t_pos *m)
 {
-	double	nTan;
-	t_pos	*m;
-
-	m = posstructinit();
-	nTan = -tan(r->a);
-	dof = 0;
-	if (r->a > M_PI / 2 && r->a < M_PI + M_PI / 2)
-	{
-		r->x = (((int)data->player->x >> 6) << 6) - 0.0001;
-		r->y = (data->player->x - r->x) * nTan + data->player->y;
-		r->xo = -64;
-		r->yo = -r->xo * nTan;
-	}
-	if (r->a < M_PI / 2 || r->a > M_PI + M_PI / 2)
-	{
-		r->x = (((int)data->player->x >> 6) << 6) + 64;
-		r->y = (data->player->x - r->x) * nTan + data->player->y;
-		r->xo = 64;
-		r->yo = -r->xo * nTan;
-	}
-	if (r->a == M_PI / 2 || r->a == M_PI + M_PI / 2 )
-		return (-1);
-	while (dof < 8 && m->y >= 0 && m->y < data->map->map_y && m->x >= 0 && m->x < data->map->map_x)
+	while (m->y >= 0 && m->y < data->map->map_y && m->x >= 0 && m->x < data
+		->map->map_x)
 	{
 		m->x = (int)(r->x) >> 6;
 		m->y = (int)(r->y) >> 6;
 		m->z = m->y * data->map->map_x + m->x;
-		if (m->x >= data->map->map_x || m->y >= data->map->map_y || m->x < 0 || m->y < 0)
+		if (m->x >= data->map->map_x || m->y >= data->map->map_y || m->x < 0
+			|| m->y < 0)
 			break ;
-		if (m->z > 0 && m->z < data->map->map_x * data->map->map_y && data->map->map[m->y][m->x] == 2)
-			is_sprite(data, r, screenx, m);
-		if (m->z > 0 && m->z < data->map->map_x * data->map->map_y && data->map->map[m->y][m->x] == 1)
+		if (m->z > 0 && m->z < data->map->map_x * data->map->map_y && data
+			->map->map[m->y][m->x] == 2)
+			is_sprite(data, r, m);
+		if (m->z > 0 && m->z < data->map->map_x * data->map->map_y && data
+			->map->map[m->y][m->x] == 1)
 			break ;
 		else
 		{
@@ -189,6 +203,16 @@ double	verticalcheck(t_data *data, t_ray *r, int screenx, int dof)
 			r->y += r->yo;
 		}
 	}
+}
+
+double	verticalcheck(t_data *data, t_ray *r)
+{
+	t_pos	*m;
+
+	m = posstructinit();
+	if (!set_vertical_ray(data, r))
+		return (-1);
+	search_vert_walls(data, r, m);
 	free(m);
 	if (r->x >= 0 && r->y >= 0)
 		return (ray_dist(data->player, r));
@@ -209,22 +233,8 @@ float	calculate_angle(t_data *data, int x, int y)
 	cos = (x) / hypotenuse;
 	if (y < 0)
 		angle = -acos(cos);
-	if (y > 0)
+	if (y >= 0)
 		angle = acos(cos);
-	if (y == 0)
-	{
-		if (x < 0)
-			angle = M_PI;
-		if (x > 0)
-			angle = 0;
-	}
-	if (x == 0)
-	{
-		if (y > 0)
-			angle = M_PI / 2;
-		else
-			angle = M_PI + M_PI / 2;
-	}
 	angle = angle - data->player->a;
 	if (angle <= M_PI + M_PI / 3)
 		angle += 2 * M_PI;
@@ -439,8 +449,8 @@ void	raycast(t_data *data)
 		r->h->a = data->player->a - dr * ((data->win_w / 2) - i);
 		r->h->a = limit_angle(r->h->a);
 		r->v->a = r->h->a;
-		rdist.hd = horizontalcheck(data, r->h, i, 8);
-		rdist.vd = verticalcheck(data, r->v, i, 8);
+		rdist.hd = horizontalcheck(data, r->h);
+		rdist.vd = verticalcheck(data, r->v);
 		rdist.td[i] = totalcheck(data, rdist, r);
 		ca = data->player->a - r->h->a;
 		ca = limit_angle(ca);

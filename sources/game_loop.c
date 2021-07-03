@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:09:09 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/01 16:22:18 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/03 17:15:49 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ void	game_loop(t_data *data)
 	img->width = data->win_w;
 	data->img = img;
 	imgdrawbg(img, data->win_w, data->win_h, data);
-	data->player->x *= data->map->map_s;
-	data->player->y *= data->map->map_s;
+	data->player->x = data->player->x * data->map->map_s + data->map->map_s / 2;
+	data->player->y = data->player->y * data->map->map_s + data->map->map_s / 2;
 	raycast(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, img->img, 0, 0);
 	mlx_loop_hook(data->mlx_ptr, render_next_frame, data);

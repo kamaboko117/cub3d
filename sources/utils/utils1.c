@@ -3,8 +3,8 @@
 
 void	set_position(t_player *player, float pos_x, float pos_y)
 {
-	player->x += pos_x;
-	player->y += pos_y;
+	player->x = pos_x;
+	player->y = pos_y;
 }
 
 void	free_split(char **str)
