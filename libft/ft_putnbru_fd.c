@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 20:01:01 by asaboure          #+#    #+#             */
-/*   Updated: 2020/08/12 16:54:28 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/05 17:52:18 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	ft_recurr(unsigned int n, int fd)
 {
-	char a;
+	char	a;
 
 	if (n >= 10)
 	{

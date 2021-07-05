@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asaboure <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 16:25:14 by asaboure          #+#    #+#             */
-/*   Updated: 2019/12/02 15:20:21 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/05 18:51:14 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,24 @@ static size_t	end(char const *s1, char const *set)
 	return (i);
 }
 
-static char		*ft_empty(void)
+static char	*ft_empty(void)
 {
 	char	*ret;
 
-	if (!(ret = (char *)malloc(sizeof(char))))
+	ret = (char *)malloc(sizeof(char));
+	if (!ret)
 		return (NULL);
 	ret[0] = '\0';
 	return (ret);
 }
 
-static char		*ft_trim(char const *s1, size_t j, size_t k)
+static char	*ft_trim(char const *s1, size_t j, size_t k)
 {
 	size_t	i;
 	char	*ret;
 
-	if (!(ret = (char *)malloc(sizeof(char) * (k - j + 2))))
+	ret = (char *)malloc(sizeof(char) * (k - j + 2));
+	if (!ret)
 		return (NULL);
 	i = 0;
 	while (j <= k)
@@ -77,7 +79,7 @@ static char		*ft_trim(char const *s1, size_t j, size_t k)
 	return (ret);
 }
 
-char			*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, char const *set)
 {
 	size_t	j;
 	size_t	k;

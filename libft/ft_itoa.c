@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asaboure <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 16:05:04 by asaboure          #+#    #+#             */
-/*   Updated: 2019/11/23 18:39:46 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/05 18:20:46 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static char	*neg(unsigned int n, unsigned int temp)
 		i++;
 		temp = temp / 10;
 	}
-	if (!(ret = (char *)malloc(sizeof(char) * (i + 1))))
+	ret = (char *)malloc(sizeof(char) * (i + 1));
+	if (!ret)
 		return (NULL);
 	ret[i] = '\0';
 	ret[0] = '-';
@@ -41,20 +42,19 @@ static char	*neg(unsigned int n, unsigned int temp)
 	return (ret);
 }
 
-static char	*pos(int n)
+static char	*pos(int n, int temp)
 {
 	char	*ret;
-	int		temp;
 	int		i;
 
-	temp = n;
 	i = 1;
 	while (temp >= 10)
 	{
 		i++;
 		temp = temp / 10;
 	}
-	if (!(ret = (char *)malloc(sizeof(char) * (i + 1))))
+	ret = (char *)malloc(sizeof(char) * (i + 1));
+	if (!ret)
 		return (NULL);
 	ret[i] = '\0';
 	while (i-- > 1)
@@ -70,24 +70,26 @@ static char	*pos(int n)
 	return (ret);
 }
 
-char		*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	char	*ret;
 
 	if (n <= -10)
 		ret = neg(-n, -n);
 	if (n >= 10)
-		ret = pos(n);
+		ret = pos(n, n);
 	if (n < 10 && n >= 0)
 	{
-		if (!(ret = (char *)malloc(sizeof(char) * 2)))
+		ret = (char *)malloc(sizeof(char) * 2);
+		if (!ret)
 			return (NULL);
 		ret[1] = '\0';
 		ret[0] = n + 48;
 	}
 	if (n < 0 && n > -10)
 	{
-		if (!(ret = (char *)malloc(sizeof(char) * 3)))
+		ret = (char *)malloc(sizeof(char) * 3);
+		if (!ret)
 			return (NULL);
 		ret[0] = '-';
 		ret[1] = -n + 48;

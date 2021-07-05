@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 16:26:02 by asaboure          #+#    #+#             */
-/*   Updated: 2020/04/30 17:39:22 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/05 18:38:23 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 #include <stdio.h>
 
-int		is_nl(char *str)
+int	is_nl(char *str)
 {
 	size_t	i;
 
@@ -40,18 +40,21 @@ char	*ft_next(char *result)
 	i = 0;
 	while (result[i] && result[i] != '\n')
 		i++;
-	if (!(tmp = ft_strdup(result + i + 1)))
+	tmp = ft_strdup(result + i + 1);
+	if (!tmp)
 		return (NULL);
 	free(result);
-	if (!(result = ft_strdup(tmp)))
+	result = ft_strdup(tmp);
+	if (!result)
 		return (NULL);
 	free(tmp);
 	return (result);
 }
 
-int		ft_freeresult(char **result, char **line, int i)
+int	ft_freeresult(char **result, char **line, int i)
 {
-	if ((*line = ft_strdup_nl(*result)) == NULL)
+	*line = ft_strdup_nl(*result);
+	if (*line == NULL)
 		return (-1);
 	if (*result)
 	{
@@ -69,7 +72,8 @@ char	*ft_strjoingnl(char *s1, char const *s2)
 
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	if (!(ret = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1)))
+	ret = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!ret)
 		return (NULL);
 	i = 0;
 	while (s1[i])
@@ -89,7 +93,7 @@ char	*ft_strjoingnl(char *s1, char const *s2)
 	return (ret);
 }
 
-int		get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	static char	*result = NULL;
 	char		buf[32 + 1];
@@ -98,13 +102,15 @@ int		get_next_line(int fd, char **line)
 	i = 1;
 	if (result == NULL)
 	{
-		if (!(result = (char *)malloc(1)))
+		result = (char *)malloc(1);
+		if (!result)
 			return (-1);
 		result[0] = '\0';
 	}
 	while (i > 0 && is_nl(result) == 0)
 	{
-		if ((i = read(fd, buf, 32)) == -1)
+		i = read(fd, buf, 32);
+		if (i == -1)
 			return (-1);
 		buf[i] = '\0';
 		result = ft_strjoingnl(result, buf);

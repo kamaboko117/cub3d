@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbrbase_fd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asaboure <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:23:37 by asaboure          #+#    #+#             */
-/*   Updated: 2020/03/03 19:19:52 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/05 17:49:08 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <unistd.h>
 
-static int		check_base(char *base)
+static int	check_base(char *base)
 {
 	int	i;
 	int	z;
@@ -40,9 +40,9 @@ static int		check_base(char *base)
 	return (1);
 }
 
-static void		ft_recurr(long n, int fd, int baselen, char *base)
+static void	ft_recurr(long n, int fd, int baselen, char *base)
 {
-	char a;
+	char	a;
 
 	if (n <= -baselen)
 	{
@@ -56,7 +56,7 @@ static void		ft_recurr(long n, int fd, int baselen, char *base)
 	}
 }
 
-void			ft_putnbrbase_fd(long n, char *base, int fd)
+void	ft_putnbrbase_fd(long n, char *base, int fd)
 {
 	if (check_base(base))
 	{

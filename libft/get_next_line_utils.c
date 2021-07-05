@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asaboure <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 17:42:44 by asaboure          #+#    #+#             */
-/*   Updated: 2020/01/30 16:21:00 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/05 18:53:16 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ char	*ft_strdup_nl(char *s1)
 	size_t	i;
 
 	i = ft_strlen_nl(s1);
-	if (!(ret = (char *)malloc(sizeof(char) * (i + 1))))
+	ret = (char *)malloc(sizeof(char) * (i + 1));
+	if (!ret)
 		return (NULL);
 	i = 0;
 	while (s1[i] && s1[i] != '\n')
