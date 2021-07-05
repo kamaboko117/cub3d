@@ -178,4 +178,18 @@ void	imgdrawray(t_data *data, t_ray *r, int color);
 t_imgdata	*imgstructinit();
 float	calculate_angle(t_data *data, int x, int y);
 void	get_texture(t_data *data);
+double	dist(t_pos *a, int x, int y);
+double	ray_dist(t_player *a, t_ray *b);
+t_sprite	*sprite_struct_init(t_data *data, t_pos *pos, t_pos *mpos,
+		double distance);
+t_rays	*rays_struct_init(void);
+void	free_sprites(t_sprite **head_ref);
+double	limit_angle(double a);
+int	get_screen_x(t_data *data, t_sprite *sprite);
+void	put_sprites(t_data *data, t_raydist *rdist);
+void	is_sprite(t_data *data, t_ray *ray, t_pos *m);
+void	search_vert_walls(t_data *data, t_ray *r, t_pos *m);
+int	set_vertical_ray(t_data *data, t_ray *r);
+int	set_horizontal_ray(t_data *data, t_ray *r);
+void	search_hor_wall(t_data *data, t_ray *r, t_pos *m);
 #endif
