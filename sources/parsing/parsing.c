@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/05 19:09:11 by asaboure          #+#    #+#             */
+/*   Updated: 2021/07/05 19:11:08 by asaboure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../cub3d.h"
 #include "../../libft/libft.h"
 #include <sys/types.h>
@@ -60,11 +72,11 @@ static void	get_data(char *line, t_data *data)
 	free(trim);
 }
 
-void		get_cub_data(char *line, t_data *data)
+void	get_cub_data(char *line, t_data *data)
 {
-	if(data->map_started == 1)
+	if (data->map_started == 1)
 	{
-		if(data->map_stopped == 1 && !isempty(line))
+		if (data->map_stopped == 1 && !isempty(line))
 			exit_failure("Map has a format error 1\n", data);
 		else
 		{
@@ -88,12 +100,13 @@ void		get_cub_data(char *line, t_data *data)
 	}
 }
 
-void		read_cub(char *cub_path, t_data *data)
+void	read_cub(char *cub_path, t_data *data)
 {
 	int			fd;
 	char		*line;
 
-	if ((fd = open(cub_path, O_RDONLY)) < 0)
+	fd = open(cub_path, O_RDONLY);
+	if (fd < 0)
 		exit_failure("The file doesn't exist\n", data);
 	else
 	{

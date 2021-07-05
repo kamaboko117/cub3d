@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_layout.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/05 19:04:49 by asaboure          #+#    #+#             */
+/*   Updated: 2021/07/05 19:46:02 by asaboure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../cub3d.h"
 #include "../../libft/libft.h"
 
@@ -6,7 +18,8 @@ int	*get_row(char *line, t_data *data, int current_row)
 	int	*row;
 	int	i;
 
-	if (!(row = (int *)malloc(sizeof(int) * data->map->map_x)))
+	row = (int *)malloc(sizeof(int) * data->map->map_x);
+	if (!row)
 		return (NULL);
 	i = 0;
 	while (i < data->map->map_x)
@@ -28,10 +41,10 @@ int	*get_row(char *line, t_data *data, int current_row)
 	return (row);
 }
 
-void		get_layout(t_data *data)
+void	get_layout(t_data *data)
 {
 	char		**split_map;
-	map_t		*map;
+	t_map		*map;
 	int			i;
 
 	map = data->map;
@@ -42,7 +55,8 @@ void		get_layout(t_data *data)
 			map->map_x = (int)ft_strlen(split_map[map->map_y]);
 		map->map_y++;
 	}
-	if (!(map->map = (int **)malloc(map->map_y * sizeof(int *))))
+	map->map = (int **)malloc(map->map_y * sizeof(int *));
+	if (!map->map)
 		return ;
 	i = 0;
 	while (i < map->map_y)

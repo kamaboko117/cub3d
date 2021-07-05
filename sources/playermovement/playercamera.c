@@ -3,7 +3,7 @@
 void	lookleft(t_player *player, double sensitivity)
 {
 	player->a -= sensitivity;
-	if (player->a < 0) 
+	if (player->a < 0)
 		player->a += 2 * M_PI;
 	player->dx = cos(player->a);
 	player->dy = sin(player->a);
@@ -14,7 +14,7 @@ void	lookleft(t_player *player, double sensitivity)
 void	lookright(t_player *player, double sensitivity)
 {
 	player->a += sensitivity;
-	if (player->a > 2 * M_PI) 
+	if (player->a > 2 * M_PI)
 		player->a -= 2 * M_PI;
 	player->dx = cos(player->a);
 	player->dy = sin(player->a);

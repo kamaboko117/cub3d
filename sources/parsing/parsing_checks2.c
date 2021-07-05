@@ -1,6 +1,6 @@
 #include "../../cub3d.h"
 
-static void	flood_fill(t_data *data, map_t map, int pos_x, int pos_y)
+static void	flood_fill(t_data *data, t_map map, int pos_x, int pos_y)
 {
 	if (pos_y >= (int)map.map_y || pos_y < 0)
 		exit_failure("The map is not closed\n", data);
@@ -18,7 +18,7 @@ static void	flood_fill(t_data *data, map_t map, int pos_x, int pos_y)
 	flood_fill(data, map, pos_x, pos_y - 1);
 }
 
-static void	reset_map(map_t *map)
+static void	reset_map(t_map *map)
 {
 	int	x;
 	int	y;
@@ -39,7 +39,7 @@ static void	reset_map(map_t *map)
 	}
 }
 
-void		check_layout(t_data *data, map_t *map, t_player *player)
+void	check_layout(t_data *data, t_map *map, t_player *player)
 {
 	if (map->map_x < 3 || map->map_y < 3)
 		exit_failure("The map is too small\n", data);

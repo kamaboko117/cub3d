@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/05 19:35:31 by asaboure          #+#    #+#             */
+/*   Updated: 2021/07/05 19:35:32 by asaboure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
 t_imgdata	*imgstructinit(void)
@@ -65,15 +77,18 @@ t_data	*datainit(void)
 	data->c_color = 0;
 	data->f_color = 0;
 	data->sprite_head = NULL;
-	if (!(data->no_texture = imgstructinit())
-		|| !(data->ea_texture = imgstructinit())
-		|| !(data->so_texture = imgstructinit())
-		|| !(data->we_texture = imgstructinit())
-		|| !(data->sp_texture = imgstructinit())
-		|| !(data->img = imgstructinit())
-		|| !(data->player = playerstructinit())
-		|| !(data->map = mapstructinit())
-		|| !(data->inputs = inputstructinit()))
+	data->no_texture = imgstructinit();
+	data->ea_texture = imgstructinit();
+	data->so_texture = imgstructinit();
+	data->we_texture = imgstructinit();
+	data->sp_texture = imgstructinit();
+	data->img = imgstructinit();
+	data->player = playerstructinit();
+	data->map = mapstructinit();
+	data->inputs = inputstructinit();
+	if (!(data->no_texture) || !(data->ea_texture) || !(data->so_texture)
+		|| !(data->we_texture) || !(data->sp_texture) || !(data->img)
+		|| !(data->player) || !(data->map) || !(data->inputs))
 		return (NULL);
 	return (data);
 }

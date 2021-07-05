@@ -1,13 +1,16 @@
-#include "../../cub3d.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   playermovement.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/05 19:00:54 by asaboure          #+#    #+#             */
+/*   Updated: 2021/07/05 19:02:07 by asaboure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int		checkcollision(double x, double y, t_data *data)
-{
-	x = x / data->map->map_s;
-	y = y / data->map->map_s;
-	if (data->map->map[(int)y][(int)x] >= 1)
-		return (1);
-	return(0);
-}
+#include "../../cub3d.h"
 
 void	forward(t_player *player, int velocity, t_data *data)
 {
@@ -52,7 +55,7 @@ void	moveplayer(t_data *data)
 		forward(data->player, velocity, data);
 	if (data->inputs->a == 1)
 		left(data->player, velocity, data);
-	if (data->inputs->s == 1) 
+	if (data->inputs->s == 1)
 		backward(data->player, velocity, data);
 	if (data->inputs->d == 1)
 		right(data->player, velocity, data);
@@ -60,5 +63,4 @@ void	moveplayer(t_data *data)
 		lookleft(data->player, sensitivity);
 	if (data->inputs->right == 1)
 		lookright(data->player, sensitivity);
-	//printf("x: %f | y: %f | a: %f\n", data->player->x, data->player->y, data->player->a);
 }

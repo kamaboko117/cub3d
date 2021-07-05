@@ -6,17 +6,17 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 17:17:39 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/05 17:19:08 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/05 19:46:02 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-map_t	*mapstructinit(void)
+t_map	*mapstructinit(void)
 {
-	map_t	*map;
+	t_map	*map;
 
-	map = (map_t *)malloc(sizeof(map_t));
+	map = (t_map *)malloc(sizeof(t_map));
 	if (map == NULL)
 		return (NULL);
 	map->map = NULL;
