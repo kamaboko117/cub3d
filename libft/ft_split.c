@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 13:51:35 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/05 18:56:35 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/06 15:35:21 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ static char	*ft_strdupsplit(char const *s, char c)
 	return (cpy);
 }
 
-static char	**tabinit(char **ret, char const *s, char c)
+static char	**tabinit(char const *s, char c)
 {
+	char	**ret;
 	size_t	n;
 	size_t	i;
 
@@ -65,8 +66,7 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	i = 0;
 	j = 0;
-	ret = NULL;
-	ret = tabinit(ret, s, c);
+	ret = tabinit(s, c);
 	if (!ret)
 		return (NULL);
 	while (i < ft_strlen(s))

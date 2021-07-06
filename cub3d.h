@@ -61,11 +61,14 @@ typedef struct imgdata_s
 }				t_imgdata;
 typedef struct s_ray
 {
-	double	x;
-	double	y;
-	double	a;
-	double	xo;
-	double	yo;	
+	double		x;
+	double		y;
+	double		a;
+	double		xo;
+	double		yo;
+	t_imgdata	*txt;
+	float		step;
+	float		toffset;
 }				t_ray;
 typedef struct s_rays
 {
@@ -142,7 +145,7 @@ int			display_button(int button, int x, int y, t_data *data);
 void		imgdrawline(t_pos a, t_pos b, t_data *data);
 int			exit_cub3d(t_data *data);
 void		imgputpixel(t_imgdata *img, int x, int y, int color);
-void		imgputsquare(t_imgdata *img, int size, int x, int y, int color);
+void		imgputsquare(t_imgdata *img, int size, t_pos *p, int color);
 void		imgdrawbg(t_imgdata *img, int xres, int yres, t_data *data);
 void		displaymaparray(t_map *map);
 void		imgdrawmap(t_imgdata *img, t_map *map);
@@ -172,8 +175,7 @@ void		set_position(t_player *player, float pos_x, float pos_y);
 void		clear_image(t_imgdata *img, void *win, void *mlx);
 void		game_loop(t_data *data);
 t_map		*mapstructinit(void);
-void		draw_walls(t_data *data, t_raydist rdist, int r, t_imgdata *texture,
-				t_ray *ray);
+void		draw_walls(t_data *data, t_raydist rdist, int r, t_ray *ray);
 t_pos		*posstructinit(void);
 void		imgdrawray(t_data *data, t_ray *r, int color);
 t_imgdata	*imgstructinit(void);
@@ -194,4 +196,5 @@ int			set_vertical_ray(t_data *data, t_ray *r);
 int			set_horizontal_ray(t_data *data, t_ray *r);
 void		search_hor_wall(t_data *data, t_ray *r, t_pos *m);
 int			checkcollision(double x, double y, t_data *data);
+t_pos		*tpos_set(int x, int y, int z, int color);
 #endif

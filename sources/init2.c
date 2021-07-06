@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 17:17:39 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/05 19:46:02 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/06 16:35:24 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,9 @@ t_ray	*ray_struct_init(void)
 	r->xo = 0;
 	r->y = 0;
 	r->yo = 0;
+	r->txt = imgstructinit();
+	r->step = 0;
+	r->toffset = 0;
 	return (r);
 }
 

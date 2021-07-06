@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 16:26:02 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/05 18:38:23 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/06 15:56:45 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,6 @@ int	get_next_line(int fd, char **line)
 	if (result == NULL)
 	{
 		result = (char *)malloc(1);
-		if (!result)
-			return (-1);
 		result[0] = '\0';
 	}
 	while (i > 0 && is_nl(result) == 0)

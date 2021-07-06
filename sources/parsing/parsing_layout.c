@@ -6,12 +6,22 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 19:04:49 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/05 19:46:02 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/06 16:08:00 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 #include "../../libft/libft.h"
+
+int	row_ternary(char c)
+{
+	int	i;
+
+	i = 0;
+	if (ft_isdigit(c))
+		i = c - '0';
+	return (i);
+}
 
 int	*get_row(char *line, t_data *data, int current_row)
 {
@@ -32,7 +42,7 @@ int	*get_row(char *line, t_data *data, int current_row)
 				row[i] = 0;
 			}
 			else
-				row[i] = ft_isdigit(line[i]) ? line[i] - '0' : 0;
+				row[i] = row_ternary(line[i]);
 			i++;
 		}
 		while (i < data->map->map_x)

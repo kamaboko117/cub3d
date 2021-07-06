@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 19:13:03 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/05 19:46:02 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/06 16:22:14 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	imgputpixel(t_imgdata *img, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	imgputsquare(t_imgdata *img, int size, int x, int y, int color)
+void	imgputsquare(t_imgdata *img, int size, t_pos *p, int color)
 {
 	int	len;
 	int	wid;
@@ -33,7 +33,7 @@ void	imgputsquare(t_imgdata *img, int size, int x, int y, int color)
 		len = size - 1;
 		while (len >= 0)
 		{
-			imgputpixel(img, x + len, y + wid, color);
+			imgputpixel(img, p->x + len, p->y + wid, color);
 			len--;
 		}
 		wid--;
@@ -74,8 +74,8 @@ void	imgdrawmap(t_imgdata *img, t_map *map)
 			color = 0x002C2F33;
 			if (map->map[y][x] == 1)
 				color = 0x007289DA;
-			imgputsquare(img, map->map_s, x * map->map_s, y * map->map_s,
-				color);
+			imgputsquare(img, map->map_s, tpos_set(x * map->map_s, y * map
+					->map_s, 0, 0), color);
 			x++;
 		}
 		y++;
@@ -92,6 +92,7 @@ void	imgdrawplayer(t_imgdata *img, t_data *data)
 	start.y = data->player->y;
 	end.x = start.x + 10 * cos(data->player->a);
 	end.y = start.y + 10 * sin(data->player->a);
-	imgputsquare(img, 8, data->player->x - 3, data->player->y - 3, 0x00FF0000);
+	imgputsquare(img, 8, tpos_set(data->player->x - 3, data->player->y - 3, 0,
+			0), 0x00FF0000);
 	imgdrawline(start, end, data);
 }

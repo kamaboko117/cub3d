@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 17:26:42 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/05 17:28:20 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/06 16:39:37 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,18 @@ double	limit_angle(double a)
 	if (a > 2 * M_PI)
 		a -= 2 * M_PI;
 	return (a);
+}
+
+t_pos	*tpos_set(int x, int y, int z, int color)
+{
+	t_pos	*p;
+
+	p = posstructinit();
+	if (p == NULL)
+		return (NULL);
+	p->x = x;
+	p->y = y;
+	p->z = z;
+	p->color = color;
+	return (p);
 }

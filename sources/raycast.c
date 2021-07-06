@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 20:24:26 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/05 17:38:40 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/06 17:49:42 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,13 @@ double	totalcheck(t_data *data, t_raydist rdist, t_rays *r)
 	return (td);
 }
 
+void	rays_init(t_data *data, double dr, int i, t_rays *r)
+{
+	r->h->a = data->player->a - dr * ((data->win_w / 2) - i);
+	r->h->a = limit_angle(r->h->a);
+	r->v->a = r->h->a;
+}
+
 void	raycast(t_data *data)
 {
 	int			i;
@@ -79,16 +86,15 @@ void	raycast(t_data *data)
 	dr = (80 / (double)data->win_w) * DR;
 	while (i < data->win_w)
 	{
-		r->h->a = data->player->a - dr * ((data->win_w / 2) - i);
-		r->h->a = limit_angle(r->h->a);
-		r->v->a = r->h->a;
+		rays_init(data, dr, i, r);
 		rdist.hd = horizontalcheck(data, r->h);
 		rdist.vd = verticalcheck(data, r->v);
 		rdist.td[i] = totalcheck(data, rdist, r);
 		ca = data->player->a - r->h->a;
 		ca = limit_angle(ca);
 		rdist.td[i] = rdist.td[i] * cos(ca);
-		draw_walls(data, rdist, i, r->texture, r->t);
+		r->t->txt = r->texture;
+		draw_walls(data, rdist, i, r->t);
 		i++;
 	}
 	put_sprites(data, &rdist);

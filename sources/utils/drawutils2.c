@@ -6,14 +6,34 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 19:17:56 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/05 19:25:24 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/06 17:55:12 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 
-void	imgdrawtexturecol(t_pos a, t_pos b, t_data *data, t_imgdata *texture,
-	float step, float toffset, t_ray *ray)
+int	set_tx(t_data *data, t_ray *r)
+{
+	int	tx;
+
+	if (r->txt == data->so_texture || r->txt == data->no_texture)
+	{
+		tx = ((int)(r->x) *(r->txt->height / data->map->map_s)) % r->txt
+			->height;
+		if (r->a < M_PI)
+			tx = r->txt->height - 1 - tx;
+	}
+	else
+	{
+		tx = ((int)(r->y) *(r->txt->height / data->map->map_s)) % r->txt
+			->height;
+		if (r->a > M_PI / 2 && r->a < M_PI + (M_PI / 2))
+			tx = r->txt->height - 1 - tx;
+	}
+	return (tx);
+}
+
+void	imgdrawtexturecol(t_pos a, t_pos b, t_data *data, t_ray *r)
 {
 	int		i;
 	char	*src;
@@ -21,49 +41,32 @@ void	imgdrawtexturecol(t_pos a, t_pos b, t_data *data, t_imgdata *texture,
 	float	tx;
 
 	i = a.y;
-	ty = toffset * step;
-	if (texture == data->so_texture || texture == data->no_texture)
-	{
-		tx = ((int)(ray->x) *(texture->height / data->map->map_s)) % texture
-			->height;
-		if (ray->a < M_PI)
-			tx = texture->height - 1 - tx;
-	}
-	else
-	{
-		tx = ((int)(ray->y) *(texture->height / data->map->map_s)) % texture
-			->height;
-		if (ray->a > M_PI / 2 && ray->a < M_PI + (M_PI / 2))
-			tx = texture->height - 1 - tx;
-	}
+	ty = r->toffset * r->step;
+	tx = set_tx(data, r);
 	while (i < b.y)
 	{
-		src = texture->addr + (int)ty * texture->line_len + (int)tx * (texture
+		src = r->txt->addr + (int)ty * r->txt->line_len + (int)tx * (r->txt
 				->bpp / 8);
 		*(unsigned int *)(data->img->addr + (i * data->img->line_len + a.x
 					* (data->img->bpp / 8))) = *(unsigned int*)src;
-		ty += step;
+		ty += r->step;
 		i++;
 	}
 }
 
-void	draw_walls(t_data *data, t_raydist rdist, int r, t_imgdata *texture,
-	t_ray *ray)
+void	draw_walls(t_data *data, t_raydist rdist, int r, t_ray *ray)
 {
 	t_pos	a;
 	t_pos	b;
 	float	lineH;
 	float	lineO;
-	float	toffset;
-	float	step;
-	int		i;
 
 	lineH = (data->map->map_s * data->win_h) / rdist.td[r];
-	step = texture->height / lineH;
-	toffset = 0;
+	ray->step = ray->txt->height / lineH;
+	ray->toffset = 0;
 	if (lineH > data->win_h)
 	{
-		toffset = (lineH - data->win_h) / 2;
+		ray->toffset = (lineH - data->win_h) / 2;
 		lineH = data->win_h;
 	}
 	lineO = data->win_h / 2 - lineH / 2;
@@ -71,14 +74,7 @@ void	draw_walls(t_data *data, t_raydist rdist, int r, t_imgdata *texture,
 	b.x = 1 * r;
 	a.y = lineO;
 	b.y = lineH + lineO;
-	i = 0;
-	while (i < 1)
-	{
-		imgdrawtexturecol(a, b, data, texture, step, toffset, ray);
-		a.x += 1;
-		b.x += 1;
-		i++;
-	}
+	imgdrawtexturecol(a, b, data, ray);
 }
 
 void	imgdrawray(t_data *data, t_ray *r, int color)
