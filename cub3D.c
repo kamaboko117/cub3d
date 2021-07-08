@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 17:52:20 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/05 19:35:59 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/06 18:06:51 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static void	cub3d(char *cub_path, int save, t_data *data)
 {
 	data->save = save;
 	read_cub(cub_path, data);
-	printf("starting loop\n");
 	game_loop(data);
 }
 

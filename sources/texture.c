@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:14:38 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/01 16:16:13 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/06 18:07:07 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void	set_texture(t_data *data, t_imgdata *texture)
 			&(texture->bpp),
 			&(texture->line_len),
 			&(texture->endian));
-	printf("%s\n, %d\n, %d\n", texture->path, texture->width, texture->height);
 }
 
 void	get_texture(t_data *data)
