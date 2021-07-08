@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 17:32:24 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/05 17:35:45 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/08 19:20:33 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,9 @@ static void	sorted_insert(t_sprite **head_ref, t_sprite *new_node)
 int	get_screen_x(t_data *data, t_sprite *sprite)
 {
 	int		i;
-	t_pos	p;
 	float	angle;
 	double	dr;
 
-	p = *posstructinit();
-	p.x = sprite->pos->x;
-	p.y = sprite->pos->y;
 	angle = sprite->angle;
 	angle = angle / DR;
 	i = data->win_w / 2;
@@ -52,7 +48,7 @@ int	get_screen_x(t_data *data, t_sprite *sprite)
 	return (i);
 }
 
-void	is_sprite(t_data *data, t_ray *ray, t_pos *m)
+void	is_sprite(t_data *data, t_pos *m)
 {
 	t_pos		*newpos;
 	t_sprite	*new_sprite;

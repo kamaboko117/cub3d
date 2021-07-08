@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:09:09 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/03 17:15:49 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/08 19:16:36 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	key_hook(int keycode, t_data *data)
 		data->inputs->left = 1;
 	if (keycode == 65363)
 		data->inputs->right = 1;
+	return (1);
 }
 
 int	key_realease_hook(int keycode, t_data *data)
@@ -52,6 +53,7 @@ int	key_realease_hook(int keycode, t_data *data)
 		data->inputs->left = 0;
 	if (keycode == 65363)
 		data->inputs->right = 0;
+	return (1);
 }
 
 int	render_next_frame(t_data *data)
@@ -64,6 +66,7 @@ int	render_next_frame(t_data *data)
 	moveplayer(data);
 	raycast(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, img->img, 0, 0);
+	return (1);
 }
 
 void	create_hooks(t_data *data)

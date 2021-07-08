@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 17:29:18 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/05 17:30:33 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/08 19:18:15 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	draw_sprite(t_data *data, t_sprite *s, t_raydist *rdist,
 		double lineH)
 {
 	float	step;
-	char	*src;
 	int		i;
 	int		j;
 

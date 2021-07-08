@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 17:37:30 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/05 17:38:46 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/08 19:21:41 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	set_vertical_ray(t_data *data, t_ray *r)
 	}
 	if (r->a == M_PI / 2 || r->a == M_PI + M_PI / 2 )
 		return (-1);
+	return (1);
 }
 
 int	set_horizontal_ray(t_data *data, t_ray *r)
@@ -50,6 +51,7 @@ int	set_horizontal_ray(t_data *data, t_ray *r)
 	}
 	if (r->a == 0 || r->a == M_PI)
 		return (-1);
+	return (1);
 }
 
 void	search_vert_walls(t_data *data, t_ray *r, t_pos *m)
@@ -65,7 +67,7 @@ void	search_vert_walls(t_data *data, t_ray *r, t_pos *m)
 			break ;
 		if (m->z > 0 && m->z < data->map->map_x * data->map->map_y && data
 			->map->map[m->y][m->x] == 2)
-			is_sprite(data, r, m);
+			is_sprite(data, m);
 		if (m->z > 0 && m->z < data->map->map_x * data->map->map_y && data
 			->map->map[m->y][m->x] == 1)
 			break ;
@@ -90,7 +92,7 @@ void	search_hor_wall(t_data *data, t_ray *r, t_pos *m)
 			break ;
 		if (m->z > 0 && m->z < data->map->map_x * data->map->map_y && data->map
 			->map[m->y][m->x] == 2)
-			is_sprite(data, r, m);
+			is_sprite(data, m);
 		if (m->z > 0 && m->z < data->map->map_x * data->map->map_y && data->map
 			->map[m->y][m->x] == 1)
 			break ;

@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 18:05:51 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/06 18:05:52 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/08 19:23:56 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,8 @@ void		backward(t_player *player, int velocity, t_data *data);
 void		lookleft(t_player *player, double sensitivity);
 void		lookright(t_player *player, double sensitivity);
 int			key_hook(int keycode, t_data *data);
-int			display_keycode(int keycode, t_data *data);
-int			display_button(int button, int x, int y, t_data *data);
+int			display_keycode(int keycode);
+int			display_button(int button, int x, int y);
 void		imgdrawline(t_pos a, t_pos b, t_data *data);
 int			exit_cub3d(t_data *data);
 void		imgputpixel(t_imgdata *img, int x, int y, int color);
@@ -202,7 +202,7 @@ void		free_sprites(t_sprite **head_ref);
 double		limit_angle(double a);
 int			get_screen_x(t_data *data, t_sprite *sprite);
 void		put_sprites(t_data *data, t_raydist *rdist);
-void		is_sprite(t_data *data, t_ray *ray, t_pos *m);
+void		is_sprite(t_data *data, t_pos *m);
 void		search_vert_walls(t_data *data, t_ray *r, t_pos *m);
 int			set_vertical_ray(t_data *data, t_ray *r);
 int			set_horizontal_ray(t_data *data, t_ray *r);

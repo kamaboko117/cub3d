@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 19:26:09 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/06 16:38:58 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/08 19:40:51 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static void	line_parameters(t_line *params, t_pos a, t_pos b)
 		params->sign_x = 1;
 	else
 		params->sign_x = -1;
-	params->delta_y = fabs(b.y - a.y);
-	params->delta_x = fabs(b.x - a.x);
+	params->delta_y = abs(b.y - a.y);
+	params->delta_x = abs(b.x - a.x);
 	params->offset = params->delta_x - params->delta_y;
 	params->error = 0;
 }
