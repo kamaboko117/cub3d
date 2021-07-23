@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 17:32:24 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/08 19:20:33 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/09 19:26:01 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,5 @@ void	is_sprite(t_data *data, t_pos *m)
 	distance = dist(newpos, data->player->x, data->player->y);
 	new_sprite = sprite_struct_init(data, newpos, m, distance);
 	sorted_insert(&(data->sprite_head), new_sprite);
+	free(newpos);
 }

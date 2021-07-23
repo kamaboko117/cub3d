@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 17:17:39 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/06 16:35:24 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/23 17:35:02 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,35 +71,29 @@ t_sprite	*sprite_struct_init(t_data *data, t_pos *pos, t_pos *mpos,
 	return (sprite);
 }
 
-t_ray	*ray_struct_init(void)
+t_ray	ray_struct_init(void)
 {
-	t_ray	*r;
+	t_ray	r;
 
-	r = (t_ray *)malloc(sizeof(t_ray));
-	if (r == NULL)
-		return (NULL);
-	r->a = 0;
-	r->x = 0;
-	r->xo = 0;
-	r->y = 0;
-	r->yo = 0;
-	r->txt = imgstructinit();
-	r->step = 0;
-	r->toffset = 0;
+	r.a = 0;
+	r.x = 0;
+	r.xo = 0;
+	r.y = 0;
+	r.yo = 0;
+	r.txt = NULL;
+	r.step = 0;
+	r.toffset = 0;
 	return (r);
 }
 
-t_rays	*rays_struct_init(void)
+t_rays	rays_struct_init(void)
 {
-	t_rays	*r;
+	t_rays	r;
 
-	r = (t_rays *)malloc(sizeof(t_rays));
-	if (r == NULL)
-		return (NULL);
-	r->h = ray_struct_init();
-	r->p = posstructinit();
-	r->t = ray_struct_init();
-	r->texture = imgstructinit();
-	r->v = ray_struct_init();
+	r.h = ray_struct_init();
+	r.p = posstructinit();
+	r.t = ray_struct_init();
+	r.texture = NULL;
+	r.v = ray_struct_init();
 	return (r);
 }

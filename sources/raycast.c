@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 20:24:26 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/06 17:49:42 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/23 18:06:39 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,36 +40,36 @@ double	verticalcheck(t_data *data, t_ray *r)
 	return (-1);
 }
 
-double	totalcheck(t_data *data, t_raydist rdist, t_rays *r)
+double	totalcheck(t_data *data, t_raydist *rdist, t_rays *r)
 {
 	double	td;
 
-	if ((rdist.hd != -1 && rdist.hd < rdist.vd) || rdist.vd == -1)
+	if ((rdist->hd != -1 && rdist->hd < rdist->vd) || rdist->vd == -1)
 	{
-		if (r->h->a >= 0 && r->h->a < M_PI)
+		if (r->h.a >= 0 && r->h.a < M_PI)
 			r->texture = data->no_texture;
 		else
 			r->texture = data->so_texture;
-		td = rdist.hd;
+		td = rdist->hd;
 		r->t = r->h;
 	}
-	else if ((rdist.vd != -1 && rdist.vd < rdist.hd) || rdist.hd == -1)
+	else if ((rdist->vd != -1 && rdist->vd < rdist->hd) || rdist->hd == -1)
 	{
-		if (r->h->a >= M_PI / 2 && r->h->a < M_PI + (M_PI / 2))
+		if (r->h.a >= M_PI / 2 && r->h.a < M_PI + (M_PI / 2))
 			r->texture = data->we_texture;
 		else
 			r->texture = data->ea_texture;
-		td = rdist.vd;
+		td = rdist->vd;
 		r->t = r->v;
 	}
 	return (td);
 }
 
-void	rays_init(t_data *data, double dr, int i, t_rays *r)
+void	free_raycast(t_rays *r, t_raydist *rdist)
 {
-	r->h->a = data->player->a - dr * ((data->win_w / 2) - i);
-	r->h->a = limit_angle(r->h->a);
-	r->v->a = r->h->a;
+	free(r->v.txt);
+	free(r->p);
+	free(rdist->td);
 }
 
 void	raycast(t_data *data)
@@ -77,25 +77,26 @@ void	raycast(t_data *data)
 	int			i;
 	float		ca;
 	double		dr;
-	t_rays		*r;
+	t_rays		r;
 	t_raydist	rdist;
 
 	r = rays_struct_init();
-	rdist.td = (double *)malloc(sizeof(double) * data->win_w);
+	rdist = rdist_struct_init(data);
 	i = 0;
 	dr = (80 / (double)data->win_w) * DR;
 	while (i < data->win_w)
 	{
-		rays_init(data, dr, i, r);
-		rdist.hd = horizontalcheck(data, r->h);
-		rdist.vd = verticalcheck(data, r->v);
-		rdist.td[i] = totalcheck(data, rdist, r);
-		ca = data->player->a - r->h->a;
+		rays_init(data, dr, i, &r);
+		rdist.hd = horizontalcheck(data, &r.h);
+		rdist.vd = verticalcheck(data, &r.v);
+		rdist.td[i] = totalcheck(data, &rdist, &r);
+		ca = data->player->a - r.h.a;
 		ca = limit_angle(ca);
 		rdist.td[i] = rdist.td[i] * cos(ca);
-		r->t->txt = r->texture;
-		draw_walls(data, rdist, i, r->t);
+		r.t.txt = r.texture;
+		draw_walls(data, &rdist, i, &r.t);
 		i++;
 	}
 	put_sprites(data, &rdist);
+	free_raycast(&r, &rdist);
 }

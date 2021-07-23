@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 17:54:37 by asaboure          #+#    #+#             */
-/*   Updated: 2021/06/30 18:01:59 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/23 17:48:42 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,19 @@ void	clear_map(t_data *data)
 
 void	clear_game(t_data *data)
 {
-	free (data->player);
-	free (data->inputs);
+	free(data->player);
+	free(data->inputs);
 	clear_map(data);
 	clear_image(data->no_texture, data->mlx_win, data->mlx_ptr);
 	clear_image(data->ea_texture, data->mlx_win, data->mlx_ptr);
 	clear_image(data->so_texture, data->mlx_win, data->mlx_ptr);
 	clear_image(data->we_texture, data->mlx_win, data->mlx_ptr);
+	clear_image(data->sp_texture, data->mlx_win, data->mlx_ptr);
 	clear_image(data->img, data->mlx_win, data->mlx_ptr);
-	free (data);
+	if (data->sprite_head)
+		free_sprites(&data->sprite_head);
+	free(data->sprite_head);
+	free(data);
 }
 
 void	clear_image(t_imgdata *img, void *win, void *mlx)

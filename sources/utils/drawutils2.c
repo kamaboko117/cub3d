@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 19:17:56 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/06 17:55:12 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/23 17:30:43 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ void	imgdrawtexturecol(t_pos a, t_pos b, t_data *data, t_ray *r)
 	}
 }
 
-void	draw_walls(t_data *data, t_raydist rdist, int r, t_ray *ray)
+void	draw_walls(t_data *data, t_raydist *rdist, int r, t_ray *ray)
 {
 	t_pos	a;
 	t_pos	b;
 	float	lineH;
 	float	lineO;
 
-	lineH = (data->map->map_s * data->win_h) / rdist.td[r];
+	lineH = (data->map->map_s * data->win_h) / rdist->td[r];
 	ray->step = ray->txt->height / lineH;
 	ray->toffset = 0;
 	if (lineH > data->win_h)

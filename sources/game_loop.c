@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:09:09 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/08 19:16:36 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/23 17:58:49 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,11 @@ int	key_realease_hook(int keycode, t_data *data)
 
 int	render_next_frame(t_data *data)
 {
-	t_imgdata	*img;
-
-	img = data->img;
 	mlx_clear_window(data->mlx_ptr, data->mlx_win);
-	imgdrawbg(img, data->win_w, data->win_h, data);
+	imgdrawbg(data->img, data->win_w, data->win_h, data);
 	moveplayer(data);
 	raycast(data);
-	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, img->img, 0, 0);
+	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->img->img, 0, 0);
 	return (1);
 }
 
@@ -77,8 +74,6 @@ void	create_hooks(t_data *data)
 
 void	game_loop(t_data *data)
 {
-	t_imgdata	*img;
-
 	data->mlx_ptr = mlx_init();
 	if (data->mlx_ptr == NULL)
 		return ;
@@ -88,18 +83,16 @@ void	game_loop(t_data *data)
 		return ;
 	get_texture(data);
 	create_hooks(data);
-	img = imgstructinit();
-	img->img = mlx_new_image(data->mlx_ptr, data->win_w, data->win_h);
-	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len,
-			&img->endian);
-	img->height = data->win_h;
-	img->width = data->win_w;
-	data->img = img;
-	imgdrawbg(img, data->win_w, data->win_h, data);
+	data->img->img = mlx_new_image(data->mlx_ptr, data->win_w, data->win_h);
+	data->img->addr = mlx_get_data_addr(data->img->img, &data->img->bpp, &data
+			->img->line_len, &data->img->endian);
+	data->img->height = data->win_h;
+	data->img->width = data->win_w;
+	imgdrawbg(data->img, data->win_w, data->win_h, data);
 	data->player->x = data->player->x * data->map->map_s + data->map->map_s / 2;
 	data->player->y = data->player->y * data->map->map_s + data->map->map_s / 2;
 	raycast(data);
-	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, img->img, 0, 0);
+	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->img->img, 0, 0);
 	mlx_loop_hook(data->mlx_ptr, render_next_frame, data);
 	mlx_loop(data->mlx_ptr);
 }

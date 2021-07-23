@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 17:26:42 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/06 16:39:37 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/09 19:24:23 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ float	calculate_angle(t_data *data, int x, int y)
 		angle += 2 * M_PI;
 	if (angle >= M_PI + M_PI / 3)
 		angle -= 2 * M_PI;
+	free(origin);
 	return (angle);
 }
 

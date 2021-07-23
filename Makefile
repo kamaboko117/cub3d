@@ -6,7 +6,7 @@
 #    By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/21 14:20:20 by asaboure          #+#    #+#              #
-#    Updated: 2021/07/08 20:27:04 by asaboure         ###   ########.fr        #
+#    Updated: 2021/07/09 17:36:29 by asaboure         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -108,7 +108,7 @@ RM		= rm -f
 		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 ${NAME}:	${LIBFT} ${OBJS}
-	${CC} ${CFLAGS} ${LIBS}
+	${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS}
 
 ${LIBFT}: 
 	@make -sC ./libft -j
