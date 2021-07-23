@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 17:42:44 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/06 15:55:03 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/23 19:39:04 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ char	*ft_strdup_nl(char *s1)
 		i++;
 	}
 	ret[i] = '\0';
+	free(s1);
 	return (ret);
 }
