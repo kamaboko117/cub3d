@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 16:26:02 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/23 19:31:16 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/23 19:50:53 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*ft_next(char *result)
 
 int	ft_freeresult(char **result, char **line, int i)
 {
-	*line = ft_strdup_nl(*result);
+	*line = ft_strdup_nl(*result, 1);
 	if (*line == NULL)
 		return (-1);
 	if (*result)
@@ -115,7 +115,7 @@ int	get_next_line(int fd, char **line)
 	}
 	if ((i == 0) || i == -1)
 		return (ft_freeresult(&result, line, i));
-	*line = ft_strdup_nl(result);
+	*line = ft_strdup_nl(result, 0);
 	result = ft_next(result);
 	if (result == NULL || line == NULL)
 		return (-1);

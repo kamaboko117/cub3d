@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 17:42:44 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/23 19:39:04 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/23 19:51:44 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ size_t	ft_strlen_nl(const char *s)
 	return (i);
 }
 
-char	*ft_strdup_nl(char *s1)
+char	*ft_strdup_nl(char *s1, int j)
 {
 	char	*ret;
 	size_t	i;
@@ -39,6 +39,7 @@ char	*ft_strdup_nl(char *s1)
 		i++;
 	}
 	ret[i] = '\0';
-	free(s1);
+	if (j == 1)
+		free(s1);
 	return (ret);
 }
