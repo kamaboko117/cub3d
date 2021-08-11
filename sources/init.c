@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 19:35:31 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/23 17:55:23 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/08/11 19:09:49 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,8 @@ void	init_player(t_data *data)
 		data->player->a = M_PI + (M_PI / 2);
 	if (data->player->dir == 'W')
 		data->player->a = M_PI;
+	data->player->dx = cos(data->player->a);
+	data->player->dy = sin(data->player->a);
+	data->player->dxleft = cos(data->player->a - (M_PI / 2));
+	data->player->dyleft = sin(data->player->a - (M_PI / 2));
 }

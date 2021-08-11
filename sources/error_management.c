@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 17:54:37 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/23 17:48:42 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/08/06 21:44:44 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ void	puterror(char *str)
 {
 	ft_putstr_fd("Error\n", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
+}
+
+void	clear_window(t_data *data)
+{
+	if (data->mlx_win)
+		mlx_destroy_window(data->mlx_ptr, data->mlx_win);
 }
 
 void	exit_failure(char *error, t_data *data)
@@ -48,23 +54,26 @@ void	clear_game(t_data *data)
 	free(data->player);
 	free(data->inputs);
 	clear_map(data);
-	clear_image(data->no_texture, data->mlx_win, data->mlx_ptr);
-	clear_image(data->ea_texture, data->mlx_win, data->mlx_ptr);
-	clear_image(data->so_texture, data->mlx_win, data->mlx_ptr);
-	clear_image(data->we_texture, data->mlx_win, data->mlx_ptr);
-	clear_image(data->sp_texture, data->mlx_win, data->mlx_ptr);
-	clear_image(data->img, data->mlx_win, data->mlx_ptr);
+	clear_image(data->no_texture, data->mlx_ptr);
+	clear_image(data->ea_texture, data->mlx_ptr);
+	clear_image(data->so_texture, data->mlx_ptr);
+	clear_image(data->we_texture, data->mlx_ptr);
+	clear_image(data->sp_texture, data->mlx_ptr);
+	clear_image(data->img, data->mlx_ptr);
 	if (data->sprite_head)
 		free_sprites(&data->sprite_head);
 	free(data->sprite_head);
+	clear_window(data);
+	mlx_destroy_display(data->mlx_ptr);
+	free(data->mlx_ptr);
 	free(data);
 }
 
-void	clear_image(t_imgdata *img, void *win, void *mlx)
+void	clear_image(t_imgdata *img, void *mlx)
 {
 	if (img->path)
 		free(img->path);
-	if (img->addr)
-		mlx_destroy_image(mlx, win);
+	if (img->img)
+		mlx_destroy_image(mlx, img->img);
 	free (img);
 }

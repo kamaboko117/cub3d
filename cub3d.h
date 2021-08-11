@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 18:05:51 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/23 18:07:44 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/08/06 21:06:57 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ void		check_cub_data(t_data *data);
 void		get_layout(t_data *data);
 void		check_layout(t_data *data, t_map *map, t_player *player);
 void		set_position(t_player *player, float pos_x, float pos_y);
-void		clear_image(t_imgdata *img, void *win, void *mlx);
+void		clear_image(t_imgdata *img, void *mlx);
 void		game_loop(t_data *data);
 t_map		*mapstructinit(void);
 void		draw_walls(t_data *data, t_raydist *rdist, int r, t_ray *ray);

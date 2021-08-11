@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 18:05:14 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/06 18:05:15 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/08/11 18:28:34 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	free_split(char **str)
 
 int	exit_cub3d(t_data *data)
 {
-	mlx_destroy_window(data->mlx_ptr, data->mlx_win);
-	exit(0);
+	clear_game(data);
+	exit(EXIT_SUCCESS);
 }
 
 double	ray_dist(t_player *a, t_ray *b)

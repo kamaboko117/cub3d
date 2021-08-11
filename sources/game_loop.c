@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:09:09 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/23 17:58:49 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/07/30 17:05:29 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ int	key_hook(int keycode, t_data *data)
 {
 	if (keycode == 65307)
 	{
-		mlx_destroy_window(data->mlx_ptr, data->mlx_win);
-		exit(0);
+		exit_cub3d(data);
 	}
 	if (keycode == 119)
 		data->inputs->w = 1;
