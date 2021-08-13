@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 19:04:49 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/06 16:08:00 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/08/11 19:58:24 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	*get_row(char *line, t_data *data, int current_row)
 
 	row = (int *)malloc(sizeof(int) * data->map->map_x);
 	if (!row)
-		return (NULL);
+		exit_failure("malloc error\n", data);
 	i = 0;
 	while (i < data->map->map_x)
 	{
@@ -66,8 +66,8 @@ void	get_layout(t_data *data)
 		map->map_y++;
 	}
 	map->map = (int **)malloc(map->map_y * sizeof(int *));
-	if (!map->map)
-		return ;
+	if (!(map->map))
+		exit_failure("malloc error\n", data);
 	i = 0;
 	while (i < map->map_y)
 	{

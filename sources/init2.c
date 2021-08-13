@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 17:17:39 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/23 17:35:02 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/08/13 16:52:35 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ t_map	*mapstructinit(void)
 	return (map);
 }
 
-t_pos	*posstructinit(void)
+t_pos	*posstructinit(t_data *data)
 {
 	t_pos	*p;
 
 	p = (t_pos *)malloc(sizeof (t_pos));
 	if (p == NULL)
-		return (NULL);
+		exit_failure("malloc error\n", data);
 	p->color = 0;
 	p->x = 0;
 	p->y = 0;
@@ -49,7 +49,7 @@ t_sprite	*sprite_struct_init(t_data *data, t_pos *pos, t_pos *mpos,
 
 	sprite = (t_sprite *)malloc(sizeof(t_sprite));
 	if (sprite == NULL)
-		return (NULL);
+		exit_failure("malloc error\n", data);
 	sprite->pos = pos;
 	sprite->angle = calculate_angle(data, pos->x, pos->y);
 	cosine = cos(sprite->angle);
@@ -86,12 +86,12 @@ t_ray	ray_struct_init(void)
 	return (r);
 }
 
-t_rays	rays_struct_init(void)
+t_rays	rays_struct_init(t_data *data)
 {
 	t_rays	r;
 
 	r.h = ray_struct_init();
-	r.p = posstructinit();
+	r.p = posstructinit(data);
 	r.t = ray_struct_init();
 	r.texture = NULL;
 	r.v = ray_struct_init();

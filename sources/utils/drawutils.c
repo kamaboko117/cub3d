@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 19:13:03 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/06 16:22:14 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/08/13 16:56:25 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	imgdrawbg(t_imgdata *img, int xres, int yres, t_data *data)
 	}
 }
 
-void	imgdrawmap(t_imgdata *img, t_map *map)
+void	imgdrawmap(t_data *data, t_imgdata *img, t_map *map)
 {
 	int	y;
 	int	x;
@@ -74,8 +74,8 @@ void	imgdrawmap(t_imgdata *img, t_map *map)
 			color = 0x002C2F33;
 			if (map->map[y][x] == 1)
 				color = 0x007289DA;
-			imgputsquare(img, map->map_s, tpos_set(x * map->map_s, y * map
-					->map_s, 0, 0), color);
+			imgputsquare(img, map->map_s, tpos_set(data, x * map->map_s, y * map
+					->map_s, 0), color);
 			x++;
 		}
 		y++;
@@ -92,7 +92,7 @@ void	imgdrawplayer(t_imgdata *img, t_data *data)
 	start.y = data->player->y;
 	end.x = start.x + 10 * cos(data->player->a);
 	end.y = start.y + 10 * sin(data->player->a);
-	imgputsquare(img, 8, tpos_set(data->player->x - 3, data->player->y - 3, 0,
-			0), 0x00FF0000);
+	imgputsquare(img, 8, tpos_set(data, data->player->x - 3, data->player->y
+			- 3, 0), 0x00FF0000);
 	imgdrawline(start, end, data);
 }

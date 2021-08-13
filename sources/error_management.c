@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 17:54:37 by asaboure          #+#    #+#             */
-/*   Updated: 2021/08/06 21:44:44 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/08/13 16:52:10 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,8 @@ void	clear_game(t_data *data)
 		free_sprites(&data->sprite_head);
 	free(data->sprite_head);
 	clear_window(data);
-	mlx_destroy_display(data->mlx_ptr);
+	if (data->mlx_ptr)
+		mlx_destroy_display(data->mlx_ptr);
 	free(data->mlx_ptr);
 	free(data);
-}
-
-void	clear_image(t_imgdata *img, void *mlx)
-{
-	if (img->path)
-		free(img->path);
-	if (img->img)
-		mlx_destroy_image(mlx, img->img);
-	free (img);
 }

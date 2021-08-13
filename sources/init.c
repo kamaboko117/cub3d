@@ -6,19 +6,19 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 19:35:31 by asaboure          #+#    #+#             */
-/*   Updated: 2021/08/11 19:09:49 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/08/11 19:35:20 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-t_imgdata	*imgstructinit(void)
+t_imgdata	*imgstructinit(t_data *data)
 {
 	t_imgdata	*img;
 
 	img = (t_imgdata *)malloc(sizeof(t_imgdata));
 	if (img == NULL)
-		return (NULL);
+		exit_failure("malloc error\n", data);
 	img->img = NULL;
 	img->addr = NULL;
 	img->bpp = 0;
@@ -77,12 +77,12 @@ t_data	*datainit(void)
 	data->c_color = 0;
 	data->f_color = 0;
 	data->sprite_head = NULL;
-	data->no_texture = imgstructinit();
-	data->ea_texture = imgstructinit();
-	data->so_texture = imgstructinit();
-	data->we_texture = imgstructinit();
-	data->sp_texture = imgstructinit();
-	data->img = imgstructinit();
+	data->no_texture = imgstructinit(data);
+	data->ea_texture = imgstructinit(data);
+	data->so_texture = imgstructinit(data);
+	data->we_texture = imgstructinit(data);
+	data->sp_texture = imgstructinit(data);
+	data->img = imgstructinit(data);
 	data->player = playerstructinit();
 	data->map = mapstructinit();
 	data->inputs = inputstructinit();

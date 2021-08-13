@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 20:24:26 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/23 18:06:39 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/08/13 16:45:09 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ double	horizontalcheck(t_data *data, t_ray *r)
 {
 	t_pos	*m;
 
-	m = posstructinit();
+	m = posstructinit(data);
 	if (!set_horizontal_ray(data, r))
 		return (-1);
 	search_hor_wall(data, r, m);
@@ -30,7 +30,7 @@ double	verticalcheck(t_data *data, t_ray *r)
 {
 	t_pos	*m;
 
-	m = posstructinit();
+	m = posstructinit(data);
 	if (!set_vertical_ray(data, r))
 		return (-1);
 	search_vert_walls(data, r, m);
@@ -80,7 +80,7 @@ void	raycast(t_data *data)
 	t_rays		r;
 	t_raydist	rdist;
 
-	r = rays_struct_init();
+	r = rays_struct_init(data);
 	rdist = rdist_struct_init(data);
 	i = 0;
 	dr = (80 / (double)data->win_w) * DR;

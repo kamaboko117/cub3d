@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 18:05:51 by asaboure          #+#    #+#             */
-/*   Updated: 2021/08/06 21:06:57 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/08/13 16:56:46 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void		imgputpixel(t_imgdata *img, int x, int y, int color);
 void		imgputsquare(t_imgdata *img, int size, t_pos *p, int color);
 void		imgdrawbg(t_imgdata *img, int xres, int yres, t_data *data);
 void		displaymaparray(t_map *map);
-void		imgdrawmap(t_imgdata *img, t_map *map);
+void		imgdrawmap(t_data *data, t_imgdata *img, t_map *map);
 void		imgdrawplayer(t_imgdata *img, t_data *data);
 int			render_next_frame(t_data *data);
 void		raycast(t_data *data);
@@ -188,16 +188,16 @@ void		clear_image(t_imgdata *img, void *mlx);
 void		game_loop(t_data *data);
 t_map		*mapstructinit(void);
 void		draw_walls(t_data *data, t_raydist *rdist, int r, t_ray *ray);
-t_pos		*posstructinit(void);
+t_pos		*posstructinit(t_data *data);
 void		imgdrawray(t_data *data, t_ray *r, int color);
-t_imgdata	*imgstructinit(void);
+t_imgdata	*imgstructinit(t_data *data);
 float		calculate_angle(t_data *data, int x, int y);
 void		get_texture(t_data *data);
 double		dist(t_pos *a, int x, int y);
 double		ray_dist(t_player *a, t_ray *b);
 t_sprite	*sprite_struct_init(t_data *data, t_pos *pos, t_pos *mpos,
 				double distance);
-t_rays		rays_struct_init(void);
+t_rays		rays_struct_init(t_data *data);
 void		free_sprites(t_sprite **head_ref);
 double		limit_angle(double a);
 int			get_screen_x(t_data *data, t_sprite *sprite);
@@ -208,7 +208,7 @@ int			set_vertical_ray(t_data *data, t_ray *r);
 int			set_horizontal_ray(t_data *data, t_ray *r);
 void		search_hor_wall(t_data *data, t_ray *r, t_pos *m);
 int			checkcollision(double x, double y, t_data *data);
-t_pos		*tpos_set(int x, int y, int z, int color);
+t_pos		*tpos_set(t_data *data, int x, int y, int color);
 t_raydist	rdist_struct_init(t_data *data);
 void		rays_init(t_data *data, double dr, int i, t_rays *r);
 #endif

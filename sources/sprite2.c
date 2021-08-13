@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 17:32:24 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/09 19:26:01 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/08/13 16:45:50 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	is_sprite(t_data *data, t_pos *m)
 	t_sprite	*current;
 	double		distance;
 
-	newpos = posstructinit();
+	newpos = posstructinit(data);
 	newpos->x = m->x * data->map->map_s + data->map->map_s / 2;
 	newpos->y = m->y * data->map->map_s + data->map->map_s / 2 ;
 	current = data->sprite_head;

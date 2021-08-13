@@ -6,7 +6,7 @@
 #    By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/21 14:20:20 by asaboure          #+#    #+#              #
-#    Updated: 2021/07/09 17:36:29 by asaboure         ###   ########.fr        #
+#    Updated: 2021/08/11 19:17:00 by asaboure         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,8 @@ SRCS	=	cub3D.c																\
 			sources/utils/drawutils2.c											\
 			sources/utils/free_functions.c										\
 			sources/utils/utils1.c												\
-			sources/utils/utils2.c
+			sources/utils/utils2.c												\
+			sources/clear.c
 
 LIBFTSRCS = ft_memccpy.c														\
 			ft_memchr.c															\

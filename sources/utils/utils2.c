@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 17:26:42 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/09 19:24:23 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/08/13 16:55:43 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ float	calculate_angle(t_data *data, int x, int y)
 	t_pos	*origin;
 	float	cos;
 
-	origin = posstructinit();
+	origin = posstructinit(data);
 	x -= data->player->x;
 	y -= data->player->y;
 	hypotenuse = dist(origin, x, y);
@@ -46,16 +46,16 @@ double	limit_angle(double a)
 	return (a);
 }
 
-t_pos	*tpos_set(int x, int y, int z, int color)
+t_pos	*tpos_set(t_data *data, int x, int y, int color)
 {
 	t_pos	*p;
 
-	p = posstructinit();
+	p = posstructinit(data);
 	if (p == NULL)
 		return (NULL);
 	p->x = x;
 	p->y = y;
-	p->z = z;
+	p->z = 0;
 	p->color = color;
 	return (p);
 }
