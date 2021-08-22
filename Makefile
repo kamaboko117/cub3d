@@ -84,6 +84,12 @@ LIBFTSRCS = ft_memccpy.c														\
 			ft_strjoin_free.c													\
 			ft_strcmp.c					
 
+MLXHEADER = /usr/local/include/mlx.h
+
+LOCLIBMLX	= /usr/local/lib/libmlx.a
+
+LIBMLX	= ./minilibx-linux/libmlx.a
+
 LIBFTOBJS =${LIBFTSRCS:.c=.o}
 
 BONUSSRCS	=
@@ -104,15 +110,26 @@ LIBS	= -lmlx -lXext -lX11 -lm -L${LIBFT_DIR} -lft
 
 RM		= rm -f
 
+${NAME}:	${LIBFT} ${MLXHEADER} ${LOCLIBMLX} ${OBJS}
+	${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS}
 
 .c.o:
 		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
-${NAME}:	${LIBFT} ${OBJS}
-	${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS}
-
-${LIBFT}: 
+${LIBFT}:
 	@make -sC ./libft -j
+
+${LOCLIBMLX}: ${LIBMLX}
+	@echo allow creation of the mlx librairy
+	sudo mv ${LIBMLX} /usr/local/lib/
+
+${LIBMLX}:
+	@make -sC ./minilibx-linux
+	ls
+
+${MLXHEADER}:
+	@echo allow creation of the mlx.h header
+	sudo mv ./minilibx-linux/mlx.h /usr/local/include/
 
 all:	${NAME}
 
