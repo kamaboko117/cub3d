@@ -6,7 +6,7 @@
 #    By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/21 14:20:20 by asaboure          #+#    #+#              #
-#    Updated: 2021/08/26 18:45:46 by asaboure         ###   ########.fr        #
+#    Updated: 2021/08/26 19:25:12 by asaboure         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -123,14 +123,14 @@ ${LIBFT}:
 
 ${LOCLIBMLX}: ${LIBMLX}
 	@echo allow creation of the mlx librairy
-	sudo cp ${LIBMLX} ${LOCLIBREP}
+	@sudo cp ${LIBMLX} ${LOCLIBREP}
 
 ${LIBMLX}:
 	@make -sC ./minilibx-linux
 
 ${MLXHEADER}:
 	@echo allow creation of the mlx.h header
-	sudo mv ./minilibx-linux/mlx.h /usr/local/include/
+	@sudo mv ./minilibx-linux/mlx.h /usr/local/include/
 
 all:	${NAME}
 
