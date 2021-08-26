@@ -6,7 +6,7 @@
 #    By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/21 14:20:20 by asaboure          #+#    #+#              #
-#    Updated: 2021/08/11 19:17:00 by asaboure         ###   ########.fr        #
+#    Updated: 2021/08/26 18:45:46 by asaboure         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,7 +86,9 @@ LIBFTSRCS = ft_memccpy.c														\
 
 MLXHEADER = /usr/local/include/mlx.h
 
-LOCLIBMLX	= /usr/local/lib/libmlx.a
+LOCLIBREP = /usr/local/lib/
+
+LOCLIBMLX	= ${LOCLIBREP}libmlx.a
 
 LIBMLX	= ./minilibx-linux/libmlx.a
 
@@ -121,11 +123,10 @@ ${LIBFT}:
 
 ${LOCLIBMLX}: ${LIBMLX}
 	@echo allow creation of the mlx librairy
-	sudo mv ${LIBMLX} /usr/local/lib/
+	sudo cp ${LIBMLX} ${LOCLIBREP}
 
 ${LIBMLX}:
 	@make -sC ./minilibx-linux
-	ls
 
 ${MLXHEADER}:
 	@echo allow creation of the mlx.h header
