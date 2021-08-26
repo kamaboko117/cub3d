@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:09:09 by asaboure          #+#    #+#             */
-/*   Updated: 2021/08/13 16:53:48 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/08/26 18:15:22 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@
 int	key_hook(int keycode, t_data *data)
 {
 	if (keycode == 65307)
-	{
 		exit_cub3d(data);
-	}
 	if (keycode == 119)
 		data->inputs->w = 1;
 	if (keycode == 97)
@@ -69,6 +67,7 @@ void	create_hooks(t_data *data)
 {
 	mlx_hook(data->mlx_win, 2, 1L << 0, key_hook, data);
 	mlx_hook(data->mlx_win, 3, 1L << 1, key_realease_hook, data);
+	mlx_hook(data->mlx_win, 33, 1L << 17, exit_cub3d, data);
 }
 
 void	game_loop(t_data *data)
