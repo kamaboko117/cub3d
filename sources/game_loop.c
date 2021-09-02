@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:09:09 by asaboure          #+#    #+#             */
-/*   Updated: 2021/08/26 18:15:22 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/02 14:43:33 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,11 @@ void	create_hooks(t_data *data)
 
 void	game_loop(t_data *data)
 {
-	data->mlx_ptr = mlx_init();
-	if (data->mlx_ptr == NULL)
-		return ;
+	get_texture(data);
 	data->mlx_win = mlx_new_window(data->mlx_ptr,
 			 data->win_w, data->win_h, "CUB3D");
 	if (data->mlx_win == NULL)
-		return ;
-	get_texture(data);
+		exit_failure("failed to create mlx window\n", data);
 	create_hooks(data);
 	data->img->img = mlx_new_image(data->mlx_ptr, data->win_w, data->win_h);
 	data->img->addr = mlx_get_data_addr(data->img->img, &data->img->bpp, &data

@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 17:52:20 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/21 18:20:03 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/02 14:49:07 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,11 @@ void	get_color(char *line, int *color, t_data *data)
 	i = 0;
 	*color = 0x0;
 	while (line[i] && !ft_isdigit(line[i]))
+	{
+		if (line[i] == '-' && ft_isdigit(line[i + 1]))
+			break ;
 		i++;
+	}
 	rgb = ft_split(line + i, ',');
 	*color = get_color_handle(rgb, data);
 	free_split(rgb);
