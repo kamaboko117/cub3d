@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 18:05:51 by asaboure          #+#    #+#             */
-/*   Updated: 2021/08/13 16:56:46 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/01 23:03:48 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,11 @@ typedef struct s_sprite
 	int					sprite_screen_x;
 	int					x;
 	int					y;
-	float				angle;
-	float				tyoffset;
-	float				txoffset;
-	float				ty;
-	float				tx;
+	double				angle;
+	double				tyoffset;
+	double				txoffset;
+	double				ty;
+	double				tx;
 	struct s_sprite		*next;
 }				t_sprite;
 typedef struct data_s

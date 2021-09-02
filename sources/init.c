@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 19:35:31 by asaboure          #+#    #+#             */
-/*   Updated: 2021/08/11 19:35:20 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/01 22:58:56 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,11 @@ t_data	*datainit(void)
 void	init_player(t_data *data)
 {
 	if (data->player->dir == 'N')
-		data->player->a = M_PI / 2;
+		data->player->a = M_PI + (M_PI / 2);
 	if (data->player->dir == 'E')
 		data->player->a = 0;
 	if (data->player->dir == 'S')
-		data->player->a = M_PI + (M_PI / 2);
+		data->player->a = M_PI / 2;
 	if (data->player->dir == 'W')
 		data->player->a = M_PI;
 	data->player->dx = cos(data->player->a);

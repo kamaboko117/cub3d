@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 20:24:26 by asaboure          #+#    #+#             */
-/*   Updated: 2021/08/13 16:45:09 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/01 23:01:39 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ double	totalcheck(t_data *data, t_raydist *rdist, t_rays *r)
 	if ((rdist->hd != -1 && rdist->hd < rdist->vd) || rdist->vd == -1)
 	{
 		if (r->h.a >= 0 && r->h.a < M_PI)
-			r->texture = data->no_texture;
-		else
 			r->texture = data->so_texture;
+		else
+			r->texture = data->no_texture;
 		td = rdist->hd;
 		r->t = r->h;
 	}

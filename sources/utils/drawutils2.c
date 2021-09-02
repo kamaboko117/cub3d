@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 19:17:56 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/23 17:30:43 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/01 22:54:21 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,22 @@ void	draw_walls(t_data *data, t_raydist *rdist, int r, t_ray *ray)
 {
 	t_pos	a;
 	t_pos	b;
-	float	lineH;
-	float	lineO;
+	float	line_h;
+	float	line_o;
 
-	lineH = (data->map->map_s * data->win_h) / rdist->td[r];
-	ray->step = ray->txt->height / lineH;
+	line_h = (data->map->map_s * data->win_h) / rdist->td[r];
+	ray->step = ray->txt->height / line_h;
 	ray->toffset = 0;
-	if (lineH > data->win_h)
+	if (line_h > data->win_h)
 	{
-		ray->toffset = (lineH - data->win_h) / 2;
-		lineH = data->win_h;
+		ray->toffset = (line_h - data->win_h) / 2;
+		line_h = data->win_h;
 	}
-	lineO = data->win_h / 2 - lineH / 2;
+	line_o = data->win_h / 2 - line_h / 2;
 	a.x = 1 * r;
 	b.x = 1 * r;
-	a.y = lineO;
-	b.y = lineH + lineO;
+	a.y = line_o;
+	b.y = line_h + line_o;
 	imgdrawtexturecol(a, b, data, ray);
 }
 
