@@ -84,7 +84,7 @@ LIBFTSRCS = ft_memccpy.c														\
 			ft_strjoin_free.c													\
 			ft_strcmp.c					
 
-MLXHEADER = /usr/local/include/mlx.h
+MLXHEADER = minilibx-linux/mlx.h
 
 LOCLIBREP = /usr/local/lib/
 
@@ -108,7 +108,7 @@ CFLAGS	= -Wall -Wextra -Werror
 
 LIBFT_DIR = ./libft
 
-LIBS	= -lmlx -lXext -lX11 -lm -L${LIBFT_DIR} -lft
+LIBS	= -L${LIBMLX}-lmlx -lXext -lX11 -lm -L${LIBFT_DIR} -lft
 
 RM		= rm -f
 
@@ -128,7 +128,7 @@ ${LOCLIBMLX}: ${LIBMLX}
 ${LIBMLX}:
 	@make -sC ./minilibx-linux
 
-${MLXHEADER}:
+${LOCMLXHEADER}:
 	@echo allow creation of the mlx.h header
 	@sudo mv ./minilibx-linux/mlx.h /usr/local/include/
 
