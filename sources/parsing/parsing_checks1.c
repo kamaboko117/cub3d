@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 18:04:20 by asaboure          #+#    #+#             */
-/*   Updated: 2021/09/02 14:21:50 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/03 15:27:28 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	ft_ismap_char(char c)
 static void	check_dimensions(t_data *data, int *width, int *height)
 {
 	int	max_x;
-	int max_y;
+	int	max_y;
 
 	max_y = 0;
 	max_x = 0;
