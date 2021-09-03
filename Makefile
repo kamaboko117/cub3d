@@ -90,7 +90,9 @@ LOCLIBREP = /usr/local/lib/
 
 LOCLIBMLX	= ${LOCLIBREP}libmlx.a
 
-LIBMLX	= ./minilibx-linux/libmlx.a
+LIBMLX_DIR = ./minilibx-linux/
+
+LIBMLX	= ${LIBMLX_DIR}libmlx.a
 
 LIBFTOBJS =${LIBFTSRCS:.c=.o}
 
@@ -108,7 +110,7 @@ CFLAGS	= -Wall -Wextra -Werror
 
 LIBFT_DIR = ./libft
 
-LIBS	= -L${LIBMLX}-lmlx -lXext -lX11 -lm -L${LIBFT_DIR} -lft
+LIBS	= -L${LIBMLX_DIR}-lmlx -lXext -lX11 -lm -L${LIBFT_DIR} -lft
 
 RM		= rm -f
 
