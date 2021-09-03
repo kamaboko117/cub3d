@@ -112,7 +112,7 @@ LIBS	= -L${LIBMLX}-lmlx -lXext -lX11 -lm -L${LIBFT_DIR} -lft
 
 RM		= rm -f
 
-${NAME}:	${LIBFT} ${MLXHEADER} ${LOCLIBMLX} ${OBJS}
+${NAME}:	${LIBFT} ${MLXHEADER} ${LIBMLX} ${OBJS}
 	${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${LIBS}
 
 .c.o:
