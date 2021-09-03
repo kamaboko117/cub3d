@@ -110,7 +110,7 @@ CFLAGS	= -Wall -Wextra -Werror
 
 LIBFT_DIR = ./libft
 
-LIBS	= -L${LIBMLX_DIR}-lmlx -lXext -lX11 -lm -L${LIBFT_DIR} -lft
+LIBS	= -L${LIBMLX_DIR} -lmlx -lXext -lX11 -lm -L${LIBFT_DIR} -lft
 
 RM		= rm -f
 
