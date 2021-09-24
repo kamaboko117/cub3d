@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 19:35:31 by asaboure          #+#    #+#             */
-/*   Updated: 2021/09/01 22:58:56 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/23 17:57:20 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ t_data	*datainit(void)
 	data->map_started = 0;
 	data->map_stopped = 0;
 	data->save = 0;
-	data->c_color = 0;
-	data->f_color = 0;
+	data->c_color = -1;
+	data->f_color = -1;
 	data->sprite_head = NULL;
 	data->no_texture = imgstructinit(data);
 	data->ea_texture = imgstructinit(data);

@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 19:09:11 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/05 19:11:08 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/23 18:36:49 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-static void	get_texture_path(char *line, t_imgdata *texture)
+static void	get_texture_path(char *line, t_imgdata *texture, t_data *data)
 {
 	char	**path;
 
+	if (texture->path)
+		exit_failure("duplicate texture\n", data);
 	path = ft_split(line, ' ');
 	if (path[1])
 		texture->path = ft_strdup(path[1]);
@@ -56,15 +58,15 @@ static void	get_data(char *line, t_data *data)
 	if (!ft_strncmp(trim, "R", 1))
 		get_resolution(line, &data->win_w, &data->win_h);
 	else if (!ft_strncmp(trim, "NO", 2))
-		get_texture_path(line, data->no_texture);
+		get_texture_path(line, data->no_texture, data);
 	else if (!ft_strncmp(trim, "EA", 2))
-		get_texture_path(line, data->ea_texture);
+		get_texture_path(line, data->ea_texture, data);
 	else if (!ft_strncmp(trim, "SO", 2))
-		get_texture_path(line, data->so_texture);
+		get_texture_path(line, data->so_texture, data);
 	else if (!ft_strncmp(trim, "WE", 2))
-		get_texture_path(line, data->we_texture);
+		get_texture_path(line, data->we_texture, data);
 	else if (!ft_strncmp(trim, "S", 1))
-		get_texture_path(trim, data->sp_texture);
+		get_texture_path(trim, data->sp_texture, data);
 	else if (!ft_strncmp(trim, "C", 1))
 		get_color(trim, &(data->c_color), data);
 	else if (!ft_strncmp(trim, "F", 1))
@@ -92,6 +94,7 @@ void	get_cub_data(char *line, t_data *data)
 	{
 		if (isrow(line))
 		{
+			printf("plouf\n");
 			data->map_started = 1;
 			get_map(line, data);
 		}

@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 15:47:58 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/06 15:48:00 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/23 18:22:18 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,10 @@ void	check_layout(t_data *data, t_map *map, t_player *player)
 		exit_failure("The coordinates are wrong\n", data);
 	flood_fill(data, *(map), (int)player->x, (int)player->y);
 	reset_map(map);
+}
+
+void	check_color(t_data *data, int color)
+{
+	if (color < 0)
+		exit_failure("floor or ceiling color is missing or incorrect\n", data);
 }

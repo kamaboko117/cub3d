@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 18:04:20 by asaboure          #+#    #+#             */
-/*   Updated: 2021/09/03 15:27:28 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/23 18:22:52 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,7 @@ void	check_cub_data(t_data *data)
 	check_texture(data, data->ea_texture->path);
 	if (data->sp_texture->path)
 		check_texture(data, data->sp_texture->path);
+	check_color(data, data->f_color);
+	check_color(data, data->c_color);
 	check_map(data);
 }

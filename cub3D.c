@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 17:52:20 by asaboure          #+#    #+#             */
-/*   Updated: 2021/09/02 14:49:07 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/23 17:58:24 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	get_color(char *line, int *color, t_data *data)
 	char	**rgb;
 
 	i = 0;
+	if (*color != -1)
+		exit_failure("duplicate ceiling or floor color\n", data);
 	*color = 0x0;
 	while (line[i] && !ft_isdigit(line[i]))
 	{

@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 18:05:51 by asaboure          #+#    #+#             */
-/*   Updated: 2021/09/01 23:03:48 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/23 18:22:36 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,4 +211,5 @@ int			checkcollision(double x, double y, t_data *data);
 t_pos		*tpos_set(t_data *data, int x, int y, int color);
 t_raydist	rdist_struct_init(t_data *data);
 void		rays_init(t_data *data, double dr, int i, t_rays *r);
+void		check_color(t_data *data, int color);
 #endif
