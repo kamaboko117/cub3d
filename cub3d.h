@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 18:05:51 by asaboure          #+#    #+#             */
-/*   Updated: 2021/09/23 18:22:36 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/24 14:19:12 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_posf
 	double	z;
 	int		color;
 }				t_posf;
-typedef struct player_s
+typedef struct s_player
 {
 	char	dir;
 	double	x;
@@ -52,7 +52,7 @@ typedef struct player_s
 	double	dyleft;
 	double	a;
 }				t_player;
-typedef struct map_s
+typedef struct s_map
 {
 	int		map_x;
 	int		map_y;
@@ -60,7 +60,7 @@ typedef struct map_s
 	int		**map;
 	char	*tmpmap;
 }				t_map;
-typedef struct imgdata_s
+typedef struct s_imgdata
 {
 	void	*img;
 	char	*addr;
@@ -123,7 +123,7 @@ typedef struct s_sprite
 	double				tx;
 	struct s_sprite		*next;
 }				t_sprite;
-typedef struct data_s
+typedef struct s_data
 {
 	int			win_h;
 	int			win_w;
