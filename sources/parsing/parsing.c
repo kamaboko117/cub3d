@@ -6,7 +6,7 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 19:09:11 by asaboure          #+#    #+#             */
-/*   Updated: 2021/09/23 18:36:49 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/24 14:15:51 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void	get_cub_data(char *line, t_data *data)
 	{
 		if (isrow(line))
 		{
-			printf("plouf\n");
 			data->map_started = 1;
 			get_map(line, data);
 		}
