@@ -6,12 +6,12 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 18:05:14 by asaboure          #+#    #+#             */
-/*   Updated: 2021/08/11 18:28:34 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/30 15:01:30 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
-#include <mlx.h>
+#include "../../minilibx-linux/mlx.h"
 
 void	set_position(t_player *player, float pos_x, float pos_y)
 {

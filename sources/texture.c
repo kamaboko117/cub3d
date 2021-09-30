@@ -6,12 +6,12 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:14:38 by asaboure          #+#    #+#             */
-/*   Updated: 2021/07/06 18:07:07 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/30 14:59:09 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-#include <mlx.h>
+#include "../minilibx-linux/mlx.h"
 
 static void	set_texture(t_data *data, t_imgdata *texture)
 {

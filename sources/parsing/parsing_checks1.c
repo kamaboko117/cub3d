@@ -6,13 +6,13 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 18:04:20 by asaboure          #+#    #+#             */
-/*   Updated: 2021/09/23 18:22:52 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/30 14:59:59 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
 #include "../../libft/libft.h"
-#include <mlx.h>
+#include "../../minilibx-linux/mlx.h"
 
 static int	ft_ismap_char(char c)
 {

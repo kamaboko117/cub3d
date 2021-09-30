@@ -6,13 +6,13 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 17:52:20 by asaboure          #+#    #+#             */
-/*   Updated: 2021/09/23 17:58:24 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/30 14:57:49 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "cub3d.h"
-#include <mlx.h>
+#include "minilibx-linux/mlx.h"
 #include <math.h>
 #include <sys/types.h>
 #include <sys/stat.h>

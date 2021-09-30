@@ -6,14 +6,14 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:09:09 by asaboure          #+#    #+#             */
-/*   Updated: 2021/09/02 14:43:33 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/09/30 14:58:33 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <mlx.h>
+#include "../minilibx-linux/mlx.h"
 #include <math.h>
 #include "../cub3d.h"
 
