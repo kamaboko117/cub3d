@@ -6,13 +6,13 @@
 /*   By: asaboure <asaboure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 17:54:37 by asaboure          #+#    #+#             */
-/*   Updated: 2021/08/13 16:52:10 by asaboure         ###   ########.fr       */
+/*   Updated: 2021/10/01 16:22:12 by asaboure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include "../libft/libft.h"
-#include "mlx.h"
+#include "../minilibx-linux/mlx.h"
 
 void	puterror(char *str)
 {
